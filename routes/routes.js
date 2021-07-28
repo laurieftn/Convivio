@@ -1,12 +1,9 @@
 import express from 'express'
 import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/roomControllers.js'
+import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
-
-router.get('/', function(req, res) {
-    res.send('Hello')
-})
 
 // partie Event Lucas
 
@@ -26,6 +23,21 @@ router.patch('/event/:id', catchErrors(updateEvent))
 router.delete('/event/:id', catchErrors(deleteEvent))
 
 // --------------------------------------
+// LaurieF ** Routes REQUESTS
+router.add('/add-request', addRequest)
+
+router.get('/requests', getRequests)
+
+router.get('/request', getRequest)
+
+router.get('/request/:id', catchErrors(getRequest))
+
+router.delete('/request/:id', catchErrors(deleteRequest))
+
+router.get('/requests', catchErrors(getRequests))
+
+// ----------------------------------
+
 
 export default router
 
