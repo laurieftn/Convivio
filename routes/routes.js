@@ -1,5 +1,7 @@
 import express from 'express'
-import { getTest, postTest, addRoom, getRooms, getRoom, updateRoom, deleteRoom } from '../controllers/roomControllers.js'
+//Partie Adrien
+import {  addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
+//Fin Partie Adrien
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
@@ -8,19 +10,18 @@ router.get('/', function(req, res) {
     res.send('Hello')
 })
 
-router.get('/test', getTest)
+//Partie Adrien
 
-router.post('/test', postTest)
+router.post('/agency', catchErrors(addAgency))
 
-router.post('/room', catchErrors(addRoom))
+router.get('/agency/:id', catchErrors(getAgency))
 
-router.get('/room/:id', catchErrors(getRoom))
+router.patch('/agency/:id', catchErrors(updateAgency))
 
-router.patch('/room/:id', catchErrors(updateRoom))
+router.delete('/agency/:id', catchErrors(deleteAgency))
+ 
+//Fin Partie Adrien
 
-router.delete('/room/:id', catchErrors(deleteRoom))
-
-router.get('/rooms', catchErrors(getRooms))
 
 export default router
 
