@@ -1,5 +1,5 @@
 import express from 'express'
-import { getTest, postTest, addRoom, getRooms, getRoom, updateRoom, deleteRoom } from '../controllers/roomControllers.js'
+import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/roomControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
@@ -8,19 +8,24 @@ router.get('/', function(req, res) {
     res.send('Hello')
 })
 
-router.get('/test', getTest)
+// partie Event Lucas
 
-router.post('/test', postTest)
+// creer un event 
+router.post('/event', catchErrors(addEvent))
 
-router.post('/room', catchErrors(addRoom))
+// liste de tous les events 
+router.get('/listOfEvents', catchErrors(getEvents))
 
-router.get('/room/:id', catchErrors(getRoom))
+// visualisation d'un event 
+router.get('/event/:id', catchErrors(getOneEvent))
 
-router.patch('/room/:id', catchErrors(updateRoom))
+// mise a jour d'un event 
+router.patch('/event/:id', catchErrors(updateEvent))
 
-router.delete('/room/:id', catchErrors(deleteRoom))
+// supression d'un event 
+router.delete('/event/:id', catchErrors(deleteEvent))
 
-router.get('/rooms', catchErrors(getRooms))
+// --------------------------------------
 
 export default router
 
