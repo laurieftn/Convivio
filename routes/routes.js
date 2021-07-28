@@ -1,26 +1,22 @@
 import express from 'express'
-import { getTest, postTest, addRoom, getRooms, getRoom, updateRoom, deleteRoom } from '../controllers/roomControllers.js'
+import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
 
-router.get('/', function(req, res) {
-    res.send('Hello')
-})
+// LaurieF ** Routes REQUESTS
 
-router.get('/test', getTest)
+router.add('/add-request', addRequest)
 
-router.post('/test', postTest)
+router.get('/requests', getRequests)
 
-router.post('/room', catchErrors(addRoom))
+router.get('/request', getRequest)
 
-router.get('/room/:id', catchErrors(getRoom))
+router.get('/request/:id', catchErrors(getRequest))
 
-router.patch('/room/:id', catchErrors(updateRoom))
+router.delete('/request/:id', catchErrors(deleteRequest))
 
-router.delete('/room/:id', catchErrors(deleteRoom))
-
-router.get('/rooms', catchErrors(getRooms))
+router.get('/requests', catchErrors(getRequests))
 
 export default router
 
