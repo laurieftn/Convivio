@@ -1,5 +1,5 @@
 import express from 'express'
-import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/roomControllers.js'
+import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/eventControllers.js'
 import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 //Partie Adrien
 import {  addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
@@ -27,7 +27,7 @@ router.delete('/event/:id', catchErrors(deleteEvent))
 
 // --------------------------------------
 // LaurieF ** Routes REQUESTS
-router.add('/add-request', addRequest)
+router.post('/addRequest', addRequest)
 
 router.get('/requests', getRequests)
 
