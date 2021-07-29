@@ -1,9 +1,10 @@
 import express from 'express'
+//Partie Lucas
 import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/eventControllers.js'
+//Partie Laurie
 import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 //Partie Adrien
 import {  addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
-//Fin Partie Adrien
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
