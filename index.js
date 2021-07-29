@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import routes from './routes/routes.js'
 import dotenv from 'dotenv'
 dotenv.config()
+import jwt from 'jsonwebtoken'
 
 const PORT = process.env.PORT || 3000; // Déclare le port utilisé
 
@@ -21,3 +22,10 @@ app.use(routes)
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port : ${PORT}`) // Permet de savoir si le serveur est bien relancé
 })
+
+
+// Génération du token d'authentification avec jwt
+app.post('/api/login', function(req, res) {
+    const agency = {id: 3};
+    const token = jwt.sign({})
+});
