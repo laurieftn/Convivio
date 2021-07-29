@@ -29,7 +29,7 @@ export const updateEvent = async function(req,res) {
 export const deleteEvent = async function(req,res) {
     const event = await EventModel.findByIdAndDelete(req.params.id)
     if (!event) {
-        res.status(404).send('Aucune chambre trouvée.')
+        res.status(404).send('Aucun évènement trouvé.')
     }
     res.status(200).send()
 }
