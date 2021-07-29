@@ -25,7 +25,37 @@ app.listen(PORT, () => {
 
 
 // Génération du token d'authentification avec jwt
-app.post('/api/login', function(req, res) {
-    const agency = {id: 3};
-    const token = jwt.sign({})
+app.post('/api/login', (req, res) => { // route d'authentification
+    const agency = ({_id: req.params.id});
+    const token = jwt.sign({agency}, 'my_secret_key');
+    res.json({
+        token
+    });
 });
+
+app.get('/api/protected', ensureToken, (req, res) => {
+
+    jwt.verify(req.token, 'my_secret_key', (err, data) => {
+        if (err) {
+            res.sendStatus(403); // si erreur, va envoyer un statut erreur ou que son token n'existe pas
+        } else {
+            res.json({
+                text: 'protected',
+                data: data
+            });
+        }
+    }) // reçoit le token de la demande, va utiliser la clé
+});
+
+function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
+    const bearerHeader = req.headers['authorization'];
+    console.log(bearerHeader);
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(" ");
+        const bearerToken = bearer[1]; // 
+        req.token = bearerToken; // conserve le token dans l'objet de la demande
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+}

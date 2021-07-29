@@ -6,7 +6,7 @@ const router = express.Router()
 
 // LaurieF ** Routes REQUESTS
 
-router.add('/add-request', addRequest)
+router.post('/add-request', addRequest)
 
 router.get('/requests', getRequests)
 
