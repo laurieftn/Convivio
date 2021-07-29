@@ -24,7 +24,7 @@ app.listen(PORT, () => {
 })
 
 
-// Génération du token d'authentification avec jwt
+// ** Génération du token d'authentification avec jwt
 app.post('/api/login', (req, res) => { // route d'authentification
     const agency = ({_id: req.params.id});
     const token = jwt.sign({agency}, 'my_secret_key');
