@@ -4,7 +4,7 @@ import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../c
 //Partie Laurie
 import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 //Partie Adrien
-import {  addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
+import { addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
@@ -20,9 +20,6 @@ router.get('/listOfEvents', catchErrors(getEvents))
 // visualisation d'un event 
 router.get('/event/:id', catchErrors(getOneEvent))
 
-<<<<<<< HEAD
-router.post('/add-request', addRequest)
-=======
 // mise a jour d'un event 
 router.patch('/event/:id', catchErrors(updateEvent))
 
@@ -32,7 +29,6 @@ router.delete('/event/:id', catchErrors(deleteEvent))
 // --------------------------------------
 // LaurieF ** Routes REQUESTS
 router.post('/addRequest', addRequest)
->>>>>>> master
 
 router.get('/requests', getRequests)
 

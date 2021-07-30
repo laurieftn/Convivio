@@ -1,9 +1,10 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes/routes.js'
+import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
-import jwt from 'jsonwebtoken'
+import Agency from './models/agencyModel.js';
 
 const PORT = process.env.PORT || 3000; // Déclare le port utilisé
 
@@ -26,15 +27,19 @@ app.listen(PORT, () => {
 // ------------------------------------------------------------------------------------------------------- //
 
 // ** Création du token d'authentification avec jwt
-app.post('/api/login', (req, res) => { // route d'authentification
+app.post('/api/login', async (req, res) => { // route d'authentification
     // const bcrypt = require('bcryptjs') // cryptage du mdp avec bcrypt
     // let salt = await bcrypt.genSalt(10)
     // let hash = await bcrypt.hash(req.password, salt)
-    const agency = Agency.login(req.pseudo, req.password); // login de l'utilisateur avec pseudo et mot de passe
+
+    console.log(req.body.pseudo);
+
+    const agency = await Agency.login(req.body.pseudo, req.body.password); // login de l'utilisateur avec pseudo et mot de passe
+    console.log(agency)
     if (agency) {
         const token = jwt.sign({agency}, 'my_secret_key'); // génération du token
         res.json({
-            token
+            token, agency
         });
     } else {
         res.status(404).send('Utilisateur inexistant.')
@@ -42,7 +47,6 @@ app.post('/api/login', (req, res) => { // route d'authentification
 });
 
 app.get('/api/protected', ensureToken, (req, res) => {
-
     jwt.verify(req.token, 'my_secret_key', (err, data) => {
         if (err) {
             res.sendStatus(403); // si erreur, va envoyer un statut erreur ou que son token n'existe pas

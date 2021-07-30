@@ -21,7 +21,7 @@ const AgencySchema = new mongoose.Schema({
     },
 })
 
-AgencySchema.statics.login = async(pseudo, password) => { // Fonction qui permet de logger l'utisateur
+AgencySchema.statics.login = async function(pseudo, password){ // Fonction qui permet de logger l'utisateur
     const agency = await this.findOne({pseudo}) // cherche selon un pseudo
     if (agency) {
         if (agency.password == password) // si le mdp est bon, ok
@@ -32,6 +32,6 @@ AgencySchema.statics.login = async(pseudo, password) => { // Fonction qui permet
     return false
 }
 
-const Agency = mongoose.model('Agency', AgencySchema)
+const Agency = mongoose.model('agency', AgencySchema)
 
 export default Agency
