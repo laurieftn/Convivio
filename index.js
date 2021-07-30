@@ -23,9 +23,13 @@ app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port : ${PORT}`) // Permet de savoir si le serveur est bien relancé
 })
 
+// ------------------------------------------------------------------------------------------------------- //
 
 // ** Création du token d'authentification avec jwt
 app.post('/api/login', (req, res) => { // route d'authentification
+    // const bcrypt = require('bcryptjs') // cryptage du mdp avec bcrypt
+    // let salt = await bcrypt.genSalt(10)
+    // let hash = await bcrypt.hash(req.password, salt)
     const agency = Agency.login(req.pseudo, req.password); // login de l'utilisateur avec pseudo et mot de passe
     if (agency) {
         const token = jwt.sign({agency}, 'my_secret_key'); // génération du token
@@ -63,6 +67,3 @@ function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'u
         res.sendStatus(403);
     }
 }
-
-// Cryptage du mdp
-const  bcrypt  =  require ( 'bcrypt' ) ;
