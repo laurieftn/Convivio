@@ -1,10 +1,10 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes/routes.js'
-import jwt from 'jsonwebtoken'
+// import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
-import Agency from './models/agencyModel.js';
+// import Agency from './models/agencyModel.js';
 
 const PORT = process.env.PORT || 3000; // Déclare le port utilisé
 
