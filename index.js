@@ -24,13 +24,17 @@ app.listen(PORT, () => {
 })
 
 
-// ** Génération du token d'authentification avec jwt
+// ** Création du token d'authentification avec jwt
 app.post('/api/login', (req, res) => { // route d'authentification
-    const agency = ({_id: req.params.id});
-    const token = jwt.sign({agency}, 'my_secret_key');
-    res.json({
-        token
-    });
+    const agency = Agency.login(req.pseudo, req.password); // login de l'utilisateur avec pseudo et mot de passe
+    if (agency) {
+        const token = jwt.sign({agency}, 'my_secret_key'); // génération du token
+        res.json({
+            token
+        });
+    } else {
+        res.status(404).send('Utilisateur inexistant.')
+    }
 });
 
 app.get('/api/protected', ensureToken, (req, res) => {
@@ -44,7 +48,7 @@ app.get('/api/protected', ensureToken, (req, res) => {
                 data: data
             });
         }
-    }) // reçoit le token de la demande, va utiliser la clé
+    })
 });
 
 function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
@@ -52,10 +56,13 @@ function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'u
     console.log(bearerHeader);
     if (typeof bearerHeader !== 'undefined') {
         const bearer = bearerHeader.split(" ");
-        const bearerToken = bearer[1]; // 
+        const bearerToken = bearer[1]; // Bearer = prefixe token
         req.token = bearerToken; // conserve le token dans l'objet de la demande
         next();
     } else {
         res.sendStatus(403);
     }
 }
+
+// Cryptage du mdp
+const  bcrypt  =  require ( 'bcrypt' ) ;
