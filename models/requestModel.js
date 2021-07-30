@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 
 const RequestSchema = new mongoose.Schema({
-    name: {
+    firstname: {
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    firstname: {
+    lastname: {
         type: String,
         required: true,
         trim: true,
