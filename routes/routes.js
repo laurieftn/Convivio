@@ -28,11 +28,7 @@ router.delete('/event/:id', catchErrors(deleteEvent))
 
 // --------------------------------------
 // LaurieF ** Routes REQUESTS
-router.post('/addRequest', addRequest)
-
-router.get('/requests', getRequests)
-
-router.get('/request', getRequest)
+router.post('/addRequest', catchErrors(addRequest))
 
 router.get('/request/:id', catchErrors(getRequest))
 
