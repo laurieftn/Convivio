@@ -4,6 +4,7 @@ import routes from './routes/routes.js'
 import dotenv from 'dotenv'
 dotenv.config()
 import jwt from 'jsonwebtoken'
+import Agency from './models/agencyModel.js'
 
 const PORT = process.env.PORT || 3000; // Déclare le port utilisé
 
