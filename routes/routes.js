@@ -41,7 +41,6 @@ router.delete('/request/:id', catchErrors(deleteRequest))
 router.get('/requests', catchErrors(getRequests))
 
 // ----------------------------------
-
 //Partie Adrien
 
 router.post('/agency', catchErrors(addAgency))
