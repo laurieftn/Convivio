@@ -1,7 +1,8 @@
 import express from 'express'
 import AgencyModel from '../models/agencyModel.js'
-const app = express();
+import jwt from 'jsonwebtoken'
 
+const app = express();
 
 export const addAgency = async function(req, res) {
     const agency = new AgencyModel(req.body)
@@ -32,14 +33,9 @@ export const deleteAgency = async function(req,res) {
 }
 
 // ** Création du token d'authentification avec jwt
-app.post('/api/login', async (req, res) => { // route d'authentification
-    // const bcrypt = require('bcryptjs') // cryptage du mdp avec bcrypt
-    // let salt = await bcrypt.genSalt(10)
-    // let hash = await bcrypt.hash(req.password, salt)
-
+export async function auth(req, res) { // route d'authentification
     console.log(req.body.pseudo);
-
-    const agency = await Agency.login(req.body.pseudo, req.body.password); // login de l'utilisateur avec pseudo et mot de passe
+    const agency = await AgencyModel.login(req.body.pseudo, req.body.password); // login de l'utilisateur avec pseudo et mot de passe
     console.log(agency)
     if (agency) {
         const token = jwt.sign({agency}, 'my_secret_key'); // génération du token
@@ -49,26 +45,28 @@ app.post('/api/login', async (req, res) => { // route d'authentification
     } else {
         res.status(404).send('Utilisateur inexistant.')
     }
-});
+};
 
-app.get('/api/protected', ensureToken, (req, res) => {
+export function protectedLaurie(req, res) {
+    console.log(req.token);
     jwt.verify(req.token, 'my_secret_key', (err, data) => {
         if (err) {
-            res.sendStatus(403); // si erreur, va envoyer un statut erreur ou que son token n'existe pas
+            res.status(403).send(err.message); // si erreur, va envoyer un statut erreur ou que son token n'existe pas
         } else {
             res.json({
                 text: 'protected',
-                data: data
+                data: data,
             });
         }
     })
-});
-function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
+};
+
+export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
     const bearerHeader = req.headers['authorization'];
-    console.log(bearerHeader);
-    if (typeof bearerHeader !== 'undefined') {
-        const bearer = bearerHeader.split(" ");
-        const bearerToken = bearer[1]; // Bearer = prefixe token
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    if (bearerToken !== 'undefined') {
+ // Bearer = prefixe token
         req.token = bearerToken; // conserve le token dans l'objet de la demande
         next();
     } else {

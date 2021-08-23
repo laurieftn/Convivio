@@ -4,11 +4,11 @@ import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../c
 //Partie Laurie
 import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 //Partie Adrien
-import { addAgency, getAgency, updateAgency, deleteAgency } from '../controllers/agencyControllers.js'
+import { addAgency, getAgency, updateAgency, deleteAgency, auth, protectedLaurie, ensureToken } from '../controllers/agencyControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
-
+const app = express()
 // partie Event Lucas
 
 // creer un event 
@@ -53,6 +53,13 @@ router.patch('/agency/:id', catchErrors(updateAgency))
 router.delete('/agency/:id', catchErrors(deleteAgency))
  
 //Fin Partie Adrien
+
+// Login routes
+router.post('/api/login', (auth))
+
+router.use(ensureToken);
+
+router.get('/api/protected', (protectedLaurie))
 
 
 export default router
