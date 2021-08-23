@@ -1,14 +1,13 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import AgencyModel from '../models/agencyModel.js'
-import jwt from 'jsonwebtoken'
 
 const app = express();
 
 export const addAgency = async function(req, res) {
     const agency = new AgencyModel(req.body)
     await agency.save() // sauvegarde dans la bdd
-    res.send(agency) // envoi la réponse
+    res.send(agency) // envoie la réponse
 }
 
 // Read One
