@@ -24,3 +24,13 @@ Stéphane Cavillon
 # Lancement du server local
 
 - `npm start` ou `nodemon index.js`
+
+# Deploiement de l'API
+- Installer le cli Heroku : 
+   `https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up`
+
+- Créer l'application sur heroku :
+    `heroku create <nom de l'app>`
+
+- push de l'application sur heroku : 
+    `git push heroku master`
