@@ -19,6 +19,12 @@ export const getOneEvent = async function(req,res) {
     res.send(event)
 }
 
+// Read all events from customer
+export const getCustomerEvents = async function(req,res) {
+    const event = await EventModel.find({'business.name': req.params.name}) 
+    res.send(event)
+}
+
 // Update
 export const updateEvent = async function(req,res) {
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body)
