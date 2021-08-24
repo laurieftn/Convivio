@@ -12,7 +12,7 @@ app.use(express.json()) // pour que le serveur retourne les données en json
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify : false
+    useFindAndModify : false,
 })
 
 app.use(routes)
