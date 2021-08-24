@@ -5,9 +5,9 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const PORT = process.env.PORT || 3000; // Déclare le port utilisé
-const app = express(); // création de l'objet représentant l'application express
+const app = express(); // Création de l'objet représentant l'application express
 
-app.use(express.json()) // pour que le serveur retourne les données en json
+app.use(express.json()) // Pour que le serveur retourne les données en json
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,

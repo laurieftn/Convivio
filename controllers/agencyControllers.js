@@ -6,8 +6,8 @@ const app = express();
 
 export const addAgency = async function(req, res) {
     const agency = new AgencyModel(req.body)
-    await agency.save() // sauvegarde dans la bdd
-    res.send(agency) // envoie la réponse
+    await agency.save() // Sauvegarde dans la bdd
+    res.send(agency) // Envoie la réponse
 }
 
 // Read One
@@ -33,12 +33,12 @@ export const deleteAgency = async function(req,res) {
 }
 
 // ** Création du token d'authentification avec jwt
-export async function auth(req, res) { // route d'authentification
+export async function auth(req, res) { // Route d'authentification
     console.log(req.body.pseudo);
-    const agency = await AgencyModel.login(req.body.pseudo, req.body.password); // login de l'utilisateur avec pseudo et mot de passe
+    const agency = await AgencyModel.login(req.body.pseudo, req.body.password); // Login de l'utilisateur avec pseudo et mot de passe
     console.log(agency)
     if (agency) {
-        const token = jwt.sign({agency}, 'my_secret_key'); // génération du token
+        const token = jwt.sign({agency}, 'my_secret_key'); // Génération du token
         res.json({
             token, agency
         });
@@ -51,7 +51,7 @@ export function protectedLaurie(req, res) {
     console.log(req.token);
     jwt.verify(req.token, 'my_secret_key', (err, data) => {
         if (err) {
-            res.status(403).send(err.message); // si erreur, va envoyer un statut erreur ou que son token n'existe pas
+            res.status(403).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
         } else {
             res.json({
                 text: 'protected',
@@ -67,7 +67,7 @@ export function ensureToken(req, res, next) { // Fonction qui sert à vérifier 
     const bearerToken = bearer[1];
     if (bearerToken !== 'undefined') {
  // Bearer = prefixe token
-        req.token = bearerToken; // conserve le token dans l'objet de la demande
+        req.token = bearerToken; // Conserve le token dans l'objet de la demande
         next();
     } else {
         res.sendStatus(403);

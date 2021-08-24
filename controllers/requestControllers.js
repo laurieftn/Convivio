@@ -3,8 +3,8 @@ import RequestModel from '../models/requestModel.js'
 // Create
 export const addRequest = async function(req, res) {
     const request = new RequestModel(req.body)
-    await request.save() // sauvegarde dans la bdd
-    res.send(request) // envoie la réponse
+    await request.save() // Sauvegarde dans la bdd
+    res.send(request) // Envoie la réponse
 }
 
 // Read All
