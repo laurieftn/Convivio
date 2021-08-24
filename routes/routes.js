@@ -7,6 +7,7 @@ import { catchErrors } from './../helpers.js'
 const router = express.Router()
 const app = express()
 
+//test
 // ----------------------------------
 router.get('/event/:name', catchErrors(getCustomerEvents)) // Visualisation de tous les events du client
 // Login routes
