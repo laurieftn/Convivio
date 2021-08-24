@@ -33,4 +33,4 @@ Stéphane Cavillon
     `heroku create <nom de l'app>`
 
 - push de l'application sur heroku : 
-    `git push heroku master`
+    `git push heroku master` ou `git push heroku <nom de branche>:main` (si le déploiement se fait à partir d'une branche)
