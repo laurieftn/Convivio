@@ -1,4 +1,5 @@
 import EventModel from '../models/eventModel.js'
+
 // create 
 export const addEvent = async function(req, res) {
     const event = new EventModel(req.body)
