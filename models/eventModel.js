@@ -3,114 +3,116 @@ import mongoose from 'mongoose'
 const eventSchema = new mongoose.Schema({
     user: {
         type: ObjectId,
-        ref:'user'
+        ref:'user' // reference à la collection user n'importe peut être que l'id ? 
     },
-
-    business:{
-       name:{
+    // user: 'user' ou userSchema //pour inclure tout les données
+    eventTitle: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        index: true 
+    },
+    eventDescription: {
+        description: {
             type: String,
             required: true,
             trim: true,
             lowercase: true  
         },
-       mail:{
+        city: {
+            type: String,
+            required: true,
+            trim: true,
+            lowercase: true,
+            index: true 
+        },
+        address: {
             type: String,
             required: true,
             trim: true,
             lowercase: true  
         },
-       phone:{
+        eventType: {
             type: String,
             required: true,
             trim: true,
             lowercase: true  
         },
-        CEphone:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true  
+        startDate: {
+            type: Date,
+            required: true
+        },
+        endDate: {
+            type: Date,
+            required: true
+        },
+        numberOfPeople: {
+            type: Number
         }
     },
-    benefit:{
-        type:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true  
-        },
-        serviceProvider:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true  
-        },
-        price:{
-            type: Number,
-            required: true,
-            trim: true,
-            lowercase: true  
-        }
-    },
-        equipment:{
-            entitled:{
+    option: {
+        ServiceProvider: {
+            type:{
                 type: String,
-                required: true,
                 trim: true,
                 lowercase: true  
             },
-            price:{
-                type: Number,
-                required: true,
+            company: {
+                type: String,
                 trim: true,
                 lowercase: true  
             },
-            Number:{
-                type: Number,
-                required: true,
+            mail: {
+                type: String,
                 trim: true,
-                lowercase: true  
+                // match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/ // regex pour mail
+                // validate: [isEmail, 'le mail est invalide'] // installer et importer le validator
+            },
+            phone: {
+                type: String,
+                trim: true,
+                lowercase: true,
+                // match: // trouver une regex pour un téléphone
+                // validate : [isMobilePhone, 'le numéro n'est pas correct'] // installer et importer le validator
+            },
+            website :{
+                type: String,
+                trim: true,
+                // validate : [isURL, 'l'adresse n'est pas une URL valide'] // installer et importer le validator
+            },
+            price: {
+                type:Number
             }
         },
-        typeOfEvent:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true 
-        },
-        hourlyRate:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true 
-        },
-        request:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true  
-        },
-        numberOfPeople:{
-            type: Number,
-            required: true,
-            trim: true,
-            lowercase: true   
-        },
-        day:{
-            type: Date,
-            required: true,
-            trim: true,
-            lowercase: true   
-        },
-        description:{
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true   
+        equipment: {
+            type: {
+                type: String,
+                trim: true,
+                lowercase: true,
+            },
+            neededQuantity: {
+                type: Number
+            },
+            priceRent: {
+                type: Number
+            }
         }
-        
+    },
+    comment: {
+        type: String,
+        trim: true,
+        lowercase: true,
+    },
+    totalPrice: {
+        type: Number
+    },
+    deletedAt: {
+        type: Date    
     }
+},
+{ timestamps: true } // pour les champs createdAt et updatedAt
 )
-const event = mongoose.model('event', eventSchema)
 
-export default event
+
+export default mongoose.model('event', eventSchema)

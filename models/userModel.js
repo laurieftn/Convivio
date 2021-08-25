@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema({
         type: Date    
     }
 },
-{ timestamps:true } // pour les champs createdAt et updatedAt
+{ timestamps: true } // pour les champs createdAt et updatedAt
 )
 
-export default mongoose.model('users', userSchema)
+export default mongoose.model('user', userSchema)
