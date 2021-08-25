@@ -1,4 +1,4 @@
-Convivio 
+Convivio API
 
 Développeurs:
 Adrien Lubsec,
@@ -15,8 +15,10 @@ Stéphane Cavillon
 
 - Configuration du .env avec les identifiants MongoDB
 
-
 - Installation de node.js (minimum version 14.0.0)
+
+- Installation de npm 
+    `npm install -g npm@latest` (à confirmer)
 
 - Installation des dépendances 
     `npm install`
@@ -34,3 +36,13 @@ Stéphane Cavillon
 
 - push de l'application sur heroku : 
     `git push heroku master` ou `git push heroku <nom de branche>:main` (si le déploiement se fait à partir d'une branche)
+
+## Pousser les changements sur l'API
+- Ajouter la remote vers heroku : 
+    `git add remote heroku https://git.heroku.com/convivio-api.git`
+
+- Enregistrer les modifications effectués
+    `git add .`
+
+- pusher ces modifications sur la remote heroku
+    `git push heroku master`

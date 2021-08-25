@@ -1,6 +1,11 @@
 import mongoose from 'mongoose'
 
 const eventSchema = new mongoose.Schema({
+    user: {
+        type: ObjectId,
+        ref:'user'
+    },
+
     business:{
        name:{
             type: String,
