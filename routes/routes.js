@@ -10,21 +10,21 @@ const app = express()
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements
-router.post('/event', catchErrors(createEvent)) // Créer un event 
-router.get('/listOfEvents', catchErrors(getAllEvents)) // Liste de tous les events 
-router.get('/listOfEvents/:id', catchErrors(getAllEventsFromCustomers)) // Liste de tous les events par client
-router.get('/listOfEvents/:date', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
-router.get('/event/:id', catchErrors(getEvent)) // Visualisation d'un event 
-router.patch('/event/:id', catchErrors(updateEvent)) // Mise à jour d'un event 
-router.delete('/event/:id', catchErrors(deleteEvent)) // Suppression d'un event 
+router.post('/createEvent', catchErrors(createEvent)) // Créer un event 
+router.get('/getAllEvents', catchErrors(getAllEvents)) // Liste de tous les events 
+router.get('/getAllEvents/:id', catchErrors(getAllEventsFromCustomers)) // Liste de tous les events par client
+router.get('/getAllEvents/:date', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
+router.get('/getEvent/:id', catchErrors(getEvent)) // Visualisation d'un event 
+router.patch('/updateEvent/:id', catchErrors(updateEvent)) // Mise à jour d'un event 
+router.delete('/deleteEvent/:id', catchErrors(deleteEvent)) // Suppression d'un event 
 
 // ----------------------------------
 // USERS --- Routes liées aux utilisateurs de l'app
-router.post('/user', catchErrors(createUser))
-router.get('/user/:id', catchErrors(getUser))
-router.get('/listOfUsers', catchErrors(getAllUsers))
-router.patch('/user/:id', catchErrors(updateUser))
-router.delete('/user/:id', catchErrors(deleteUser))
+router.post('/createUser', catchErrors(createUser))
+router.get('/getUser/:id', catchErrors(getUser))
+router.get('/getAllUsers', catchErrors(getAllUsers))
+router.patch('/updateUser/:id', catchErrors(updateUser))
+router.delete('/deleteUser/:id', catchErrors(deleteUser))
 
 // ----------------------------------
 // LOGIN + PROTECTION des routes
@@ -34,21 +34,21 @@ router.get('/api/protected', (protected))
 
 // ----------------------------------
 // STOCK --- Routes liées à la gestion des stocks des équipements
-router.post('/equipment', createEquipment)
-router.get('/equipment', getEquipment)
-router.get('/listOfEquipments', getAllEquipments)
-router.get('/equipment/:id', catchErrors(getAllEquipmentsByType))
-router.delete('/equipment/:id', catchErrors(deleteEquipment))
-router.patch('/equipment', catchErrors(updateEquipment))
+router.post('/createEquipment', createEquipment)
+router.get('/getEquipment', getEquipment)
+router.get('/getAllEquipments', getAllEquipments)
+router.get('/getAllEquipments/:id', catchErrors(getAllEquipmentsByType))
+router.delete('/deleteEquipment/:id', catchErrors(deleteEquipment))
+router.patch('/updateEquipment', catchErrors(updateEquipment))
 
 // ----------------------------------
 // SERVICE PROVIDERS --- Routes liées aux prestataires
-router.post('/serviceProvider', catchErrors(createServiceProvider)) // Créer un prestataire
-router.get('/listOfServiceProviders', catchErrors(getAllServiceProviders)) // Liste de tous les prestataires
-router.get('/listOfServiceProviders/:id', catchErrors(getAllServiceProvidersByType)) // Liste de tous les prestataires par type
-router.get('/serviceProvider/:id', catchErrors(getServiceProvider)) // Visualisation d'un prestataire
-router.patch('/serviceProvider/:id', catchErrors(updateServiceProvider)) // Mise à jour d'un prestataire
-router.delete('/serviceProvider/:id', catchErrors(deleteServiceProvider)) // Suppression d'un prestataire
+router.post('/createServiceProvider', catchErrors(createServiceProvider)) // Créer un prestataire
+router.get('/getAllServiceProviders', catchErrors(getAllServiceProviders)) // Liste de tous les prestataires
+router.get('/getAllServiceProviders/:id', catchErrors(getAllServiceProvidersByType)) // Liste de tous les prestataires par type
+router.get('/getServiceProvider/:id', catchErrors(getServiceProvider)) // Visualisation d'un prestataire
+router.patch('/updateServiceProvider/:id', catchErrors(updateServiceProvider)) // Mise à jour d'un prestataire
+router.delete('/deleteServiceProvider/:id', catchErrors(deleteServiceProvider)) // Suppression d'un prestataire
 
 export default router
 
