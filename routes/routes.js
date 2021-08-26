@@ -9,7 +9,6 @@ const router = express.Router()
 const app = express()
 
 // ----------------------------------
-
 // EVENTS --- Routes liées aux évènements
 router.post('/event', catchErrors(createEvent)) // Créer un event 
 router.get('/listOfEvents', catchErrors(getAllEvents)) // Liste de tous les events 
@@ -41,7 +40,15 @@ router.get('/listOfEquipments', getAllEquipments)
 router.get('/equipment/:id', catchErrors(getAllEquipmentsByType))
 router.delete('/equipment/:id', catchErrors(deleteEquipment))
 router.patch('/equipment', catchErrors(updateEquipment))
+
 // ----------------------------------
+// SERVICE PROVIDERS --- Routes liées aux prestataires
+router.post('/serviceProvider', catchErrors(createServiceProvider)) // Créer un prestataire
+router.get('/listOfServiceProviders', catchErrors(getAllServiceProviders)) // Liste de tous les prestataires
+router.get('/listOfServiceProviders/:id', catchErrors(getAllServiceProvidersByType)) // Liste de tous les prestataires par type
+router.get('/serviceProvider/:id', catchErrors(getServiceProvider)) // Visualisation d'un prestataire
+router.patch('/serviceProvider/:id', catchErrors(updateServiceProvider)) // Mise à jour d'un prestataire
+router.delete('/serviceProvider/:id', catchErrors(deleteServiceProvider)) // Suppression d'un prestataire
 
 export default router
 
