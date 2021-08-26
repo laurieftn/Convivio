@@ -16,7 +16,7 @@ export const updateUser = async function(req, res) {
     res.status(200).send(user) // envoi la réponse
 }
 
-export const DeleteUser = async function(req, res) {
+export const deleteUser = async function(req, res) {
     const user = await UserModel.findByIdAndDelete(req.params.id)
     if (!user) {
         res.status(404).send('Aucun évènement trouvé.')
@@ -24,12 +24,12 @@ export const DeleteUser = async function(req, res) {
     res.status(200).send() // envoi la réponse
 }
 
-export const ReadUser = async function(req, res) {
+export const getUser = async function(req, res) {
     const user = await UserModel.findById(req.params.id) // si ça ne fonctionne pas ajouter un .exec()
     res.send(user)
 }
 
-export const ReadAllUsers = async function(req, res) {
+export const getAllUsers = async function(req, res) {
     const user = await UserModel.find()
     res.send(user)
 }
@@ -76,3 +76,5 @@ export function ensureToken(req, res, next) { // Fonction qui sert à vérifier 
         res.sendStatus(403);
     }
 }
+
+// export const register()

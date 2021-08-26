@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import mongoose from 'mongoose'
 
 const eventSchema = new mongoose.Schema({
@@ -53,37 +54,8 @@ const eventSchema = new mongoose.Schema({
     },
     option: {
         ServiceProvider: {
-            type:{
-                type: String,
-                trim: true,
-                lowercase: true  
-            },
-            company: {
-                type: String,
-                trim: true,
-                lowercase: true  
-            },
-            mail: {
-                type: String,
-                trim: true,
-                // match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/ // regex pour mail
-                // validate: [isEmail, 'le mail est invalide'] // installer et importer le validator
-            },
-            phone: {
-                type: String,
-                trim: true,
-                lowercase: true,
-                // match: // trouver une regex pour un téléphone
-                // validate : [isMobilePhone, 'le numéro n'est pas correct'] // installer et importer le validator
-            },
-            website :{
-                type: String,
-                trim: true,
-                // validate : [isURL, 'l'adresse n'est pas une URL valide'] // installer et importer le validator
-            },
-            price: {
-                type:Number
-            }
+            type: ObjectId,
+            ref: 'serviceProvider'
         },
         equipment: {
             type: {

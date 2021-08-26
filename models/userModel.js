@@ -76,4 +76,15 @@ const userSchema = new mongoose.Schema({
 { timestamps: true } // pour les champs createdAt et updatedAt
 )
 
+userSchema.statics.login = async function(pseudo, password){ // Fonction qui permet de logger l'utilisateur
+    const user = await this.findOne({pseudo}) // cherche selon un pseudo
+    if (user) {
+        if (user.password == password) // si le mdp est bon, ok
+        {
+            return user
+        } 
+    }
+    return false
+}
+
 export default mongoose.model('user', userSchema)

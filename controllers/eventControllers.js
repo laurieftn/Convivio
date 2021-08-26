@@ -25,7 +25,7 @@ export const updateEvent = async function(req,res) {
 
 // Read One
 export const getEvent = async function(req,res) {
-    const event = await EventModel.find({_id : req.params.id}) 
+    const event = await EventModel.findById(req.params.id) 
     res.send(event)
 }
 
