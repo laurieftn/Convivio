@@ -61,8 +61,15 @@ const eventSchema = new mongoose.Schema({
     },
     option: {
         ServiceProvider: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'serviceProvider'
+            provider:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'serviceProvider'
+            },
+            comment: {
+                type: String,
+                trim: true,
+                lowercase: true
+            }
         },
         equipment: {
             type: {
