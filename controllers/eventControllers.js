@@ -2,7 +2,7 @@ import EventModel from '../models/eventModel.js'
 
 // create 
 export const createEvent = async function(req, res) {
-    const event = new EventModel(...req.body)
+    const event = new EventModel(req.body)
     await event.save() // sauvegarde dans la bdd
     res.status(200).send(event) // envoi la réponse
 }

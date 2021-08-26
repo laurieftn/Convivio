@@ -5,7 +5,7 @@ import UserModel from '../models/userModel.js'
 const app = express();
 
 export const createUser = async function(req, res) {
-    const user = new UserModel(...req.body)
+    const user = new UserModel(req.body)
     await user.save() // sauvegarde dans la bdd
     res.status(200).send(user) // envoi la réponse
 }

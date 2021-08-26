@@ -1,7 +1,7 @@
 import ServiceProviderModel from "../models/serviceProviderModel.js"
 
 export const createServiceProvider = async function(req, res) {
-    const provider = new ServiceProviderModel(...res.body)
+    const provider = new ServiceProviderModel(req.body)
     await provider.save()
     res.status(200).send(provider)
 }
