@@ -1,9 +1,11 @@
 import StockModel from "../models/stockModel.js"
 
 export const createEquipment = async function(req, res) {
-    const equipment = new StockModel(...res.body)
-    await equipment.save()
-    res.status(200).send(equipment)
+    req.body.map(async (item) =>{
+        const equipment = new StockModel(item)
+        await equipment.save()
+        res.status(200).send(item)
+    })
 }
 
 export const deleteEquipment = async function(req, res) {

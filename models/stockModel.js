@@ -13,4 +13,4 @@ const equipmentStockSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('stock', equipmentStockSchema)
+export default mongoose.model('stocks', equipmentStockSchema)

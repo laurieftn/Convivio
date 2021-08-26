@@ -1,4 +1,4 @@
-import ServiceProviderModel from "../models/serviceProviderModel"
+import ServiceProviderModel from "../models/serviceProviderModel.js"
 
 export const createServiceProvider = async function(req, res) {
     const provider = new ServiceProviderModel(...res.body)

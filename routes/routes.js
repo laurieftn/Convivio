@@ -1,12 +1,11 @@
 import express from 'express'
-import { createEvent , deleteEvent , updateEvent , getEvent ,getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate}from '../controllers/eventControllers.js'
+import { createEvent , deleteEvent , updateEvent , getEvent ,getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
-import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, protected, ensureToken } from '../controllers/userControllers.js'
+import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
-const app = express()
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements
@@ -30,7 +29,7 @@ router.delete('/deleteUser/:id', catchErrors(deleteUser))
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
 router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
-router.get('/api/protected', (protected))
+// router.get('/api/protected', (protected))
 
 // ----------------------------------
 // STOCK --- Routes liées à la gestion des stocks des équipements
