@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 const eventSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'user' // reference à la collection user n'importe peut être que l'id ? 
+        ref:'users' // reference à la collection user n'importe peut être que l'id ? 
     },
     // user: 'user' ou userSchema // pour inclure toutes les données
     eventTitle: {
@@ -60,18 +60,18 @@ const eventSchema = new mongoose.Schema({
         }
     },
     option: {
-        ServiceProvider: {
+        ServiceProvider: [{
             provider:{
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'serviceProvider'
+                ref: 'serviceProviders'
             },
             comment: {
                 type: String,
                 trim: true,
                 lowercase: true
             }
-        },
-        equipment: {
+        }],
+        equipment: [{
             type: {
                 type: String,
                 trim: true,
@@ -83,7 +83,7 @@ const eventSchema = new mongoose.Schema({
             priceRent: {
                 type: Number
             }
-        }
+        }]
     },
     comment: {
         type: String,
