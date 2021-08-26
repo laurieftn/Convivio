@@ -28,6 +28,11 @@ const eventSchema = new mongoose.Schema({
             lowercase: true,
             index: true 
         },
+        zipcode: {
+            type: String,
+            trim: true,
+            lowercase: true,
+        },
         address: {
             type: String,
             required: true,

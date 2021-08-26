@@ -51,6 +51,11 @@ const userSchema = new mongoose.Schema({
             trim: true,
             lowercase: true,
         },
+        zipcode:{
+            type: String,
+            trim: true,
+            lowercase: true,
+        },
         siret: {
             type: Number
         },

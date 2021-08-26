@@ -28,6 +28,11 @@ const serviceProviderSchema = new mongoose.Schema({
         price: {
             type:Number
         },
+        comment: {
+            type: String,
+            trim: true,
+            lowercase: true  
+        }
     }
 })
 
