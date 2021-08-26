@@ -5,7 +5,7 @@ const eventSchema = new mongoose.Schema({
         type: ObjectId,
         ref:'user' // reference à la collection user n'importe peut être que l'id ? 
     },
-    // user: 'user' ou userSchema //pour inclure tout les données
+    // user: 'user' ou userSchema // pour inclure toutes les données
     eventTitle: {
         type: String,
         required: true,

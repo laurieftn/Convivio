@@ -1,4 +1,8 @@
+import express from 'express'
+import jwt from 'jsonwebtoken'
 import UserModel from '../models/userModel.js'
+
+const app = express();
 
 export const createUser = async function(req, res) {
     const user = new UserModel(...req.body)
@@ -30,3 +34,45 @@ export const ReadAllUsers = async function(req, res) {
     res.send(user)
 }
 
+
+// ** Création du token d'authentification avec jwt
+export async function login(req, res) { // Route d'authentification
+    console.log(req.body.pseudo);
+    const user = await UserModel.login(req.body.pseudo, req.body.password); // Login de l'utilisateur avec pseudo et mot de passe
+    console.log(user)
+    if (user) {
+        const token = jwt.sign({user}, 'my_secret_key'); // Génération du token
+        res.json({
+            token, user
+        });
+    } else {
+        res.status(404).send('Utilisateur inexistant.')
+    }
+};
+
+export function protected (req, res) {
+    console.log(req.token);
+    jwt.verify(req.token, 'my_secret_key', (err, data) => {
+        if (err) {
+            res.status(403).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
+        } else {
+            res.json({
+                text: 'protected',
+                data: data,
+            });
+        }
+    })
+};
+
+export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
+    const bearerHeader = req.headers['authorization'];
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    if (bearerToken !== 'undefined') {
+ // Bearer = prefixe token
+        req.token = bearerToken; // Conserve le token dans l'objet de la demande
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+}

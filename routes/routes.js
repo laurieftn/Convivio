@@ -1,5 +1,5 @@
 import express from 'express'
-import {addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent}from '../controllers/eventControllers.js'
+import { addEvent , getEvents , getOneEvent , updateEvent ,deleteEvent }from '../controllers/eventControllers.js'
 import { addRequest, getRequests, getRequest, deleteRequest } from '../controllers/requestControllers.js'
 import { addAgency, getAgency, updateAgency, deleteAgency, auth, protectedLaurie, ensureToken } from '../controllers/agencyControllers.js'
 import { catchErrors } from './../helpers.js'
