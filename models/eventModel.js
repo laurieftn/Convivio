@@ -28,10 +28,12 @@ const eventSchema = new mongoose.Schema({
             lowercase: true,
             index: true 
         },
-        zipcode: {
+        zipcode:{
             type: String,
             trim: true,
             lowercase: true,
+            minLength: 2,
+            maxLength: 5
         },
         address: {
             type: String,

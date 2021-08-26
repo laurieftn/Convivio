@@ -55,6 +55,8 @@ const userSchema = new mongoose.Schema({
             type: String,
             trim: true,
             lowercase: true,
+            minLength: 2,
+            maxLength: 5
         },
         siret: {
             type: Number
