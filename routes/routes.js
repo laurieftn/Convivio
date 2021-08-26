@@ -1,12 +1,15 @@
 import express from 'express'
-import { createEvent , deleteEvent , updateEvent , getEvent ,getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate}from '../controllers/eventControllers.js'
+import { createEvent , deleteEvent , updateEvent , getEvent ,getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
+<<<<<<< HEAD
 import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, protectedLaurie, ensureToken } from '../controllers/userControllers.js'
+=======
+import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
+>>>>>>> 24522ed2539e0fe310f8fa3dfdbb4cf9284035e6
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 
 const router = express.Router()
-const app = express()
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements
@@ -29,8 +32,13 @@ router.delete('/deleteUser/:id', catchErrors(deleteUser))
 // ----------------------------------
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
+<<<<<<< HEAD
 router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
 router.get('/api/protected', (protectedLaurie))
+=======
+// router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
+// router.get('/api/protected', (protected))
+>>>>>>> 24522ed2539e0fe310f8fa3dfdbb4cf9284035e6
 
 // ----------------------------------
 // STOCK --- Routes liées à la gestion des stocks des équipements

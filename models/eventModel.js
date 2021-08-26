@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 
+
 const eventSchema = new mongoose.Schema({
     user: {
-        type: ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref:'user' // reference à la collection user n'importe peut être que l'id ? 
     },
     // user: 'user' ou userSchema // pour inclure toutes les données
@@ -53,7 +54,7 @@ const eventSchema = new mongoose.Schema({
     },
     option: {
         ServiceProvider: {
-            type: ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'serviceProvider'
         },
         equipment: {
@@ -86,4 +87,4 @@ const eventSchema = new mongoose.Schema({
 )
 
 
-export default mongoose.model('event', eventSchema)
+export default mongoose.model('events', eventSchema)
