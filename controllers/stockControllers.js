@@ -20,18 +20,18 @@ export const updateEquipment = async function(req, res) {
     res.status(200).send(equipment)
 }
 
-export const getServiceProvider = async function(req, res) {
+export const getEquipment = async function(req, res) {
     const equipment = await StockModel.findById(req.params.id)
     res.send(equipment)
 }
 
-export const getAllServiceProviders = async function(req, res) {
-    const equipment = await StockModel.find({companyProvider: req.params.providerName})
+export const getAllEquipments = async function(req, res) {
+    const equipment = await StockModel.find()
     res.send(equipment)
 }
 
-export const getAllServiceProvidersByType = async function(req, res) {
-    const equipment = await StockModel.find({typeProvider: req.params.providerType})
+export const getAllEquipmentsByType = async function(req, res) {
+    const equipment = await StockModel.find({equipmentType: req.params.equipmentType})
     res.send(equipment)
 }
 
