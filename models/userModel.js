@@ -87,4 +87,4 @@ userSchema.statics.login = async function(pseudo, password){ // Fonction qui per
     return false
 }
 
-export default mongoose.model('user', userSchema)
+export default mongoose.model('users', userSchema)

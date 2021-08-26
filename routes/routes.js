@@ -28,7 +28,7 @@ router.delete('/deleteUser/:id', catchErrors(deleteUser))
 // ----------------------------------
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
-router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
+// router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
 // router.get('/api/protected', (protected))
 
 // ----------------------------------

@@ -31,4 +31,4 @@ const serviceProviderSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('serviceProvider', serviceProviderSchema)
+export default mongoose.model('serviceProviders', serviceProviderSchema)
