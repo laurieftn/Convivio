@@ -34,6 +34,7 @@ export const getEvent = async function(req,res) {
 //read All
 export const getAllEvents = async function(req,res) {
     const events = await EventModel.find({})
+    .populate('users').exec()
     res.send(events)
 }
 

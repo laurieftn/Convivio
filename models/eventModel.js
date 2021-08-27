@@ -1,12 +1,13 @@
 import mongoose from 'mongoose'
+import users from './userModel.js'
 
 
 const eventSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'users' // reference à la collection user n'importe peut être que l'id ? 
+        ref: users, // reference à la collection user n'importe peut être que l'id ? 
     },
-    // user: 'user' ou userSchema // pour inclure toutes les données
+    // user: userSchema, // pour inclure toutes les données
     eventTitle: {
         type: String,
         required: true,
@@ -63,7 +64,7 @@ const eventSchema = new mongoose.Schema({
         ServiceProvider: [{
             provider:{
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'serviceProviders'
+                ref: 'serviceProviders',
             },
             comment: {
                 type: String,
