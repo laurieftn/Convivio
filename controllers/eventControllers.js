@@ -1,5 +1,4 @@
 import EventModel from '../models/eventModel.js'
-import { formatISO } from 'date-fns'
 
 // create 
 export const createEvent = async function(req, res) {
