@@ -46,7 +46,7 @@ router.patch('/updateEquipment', catchErrors(updateEquipment))
 // SERVICE PROVIDERS --- Routes liées aux prestataires
 router.post('/createServiceProvider', catchErrors(createServiceProvider)) // Créer un prestataire
 router.get('/getAllServiceProviders', catchErrors(getAllServiceProviders)) // Liste de tous les prestataires
-router.get('/getAllServiceProviders/type', catchErrors(getAllServiceProvidersByType)) // Liste de tous les prestataires par type
+router.get('/getAllServiceProviders/:type', catchErrors(getAllServiceProvidersByType)) // Liste de tous les prestataires par type
 router.get('/getServiceProvider/:id', catchErrors(getServiceProvider)) // Visualisation d'un prestataire
 router.patch('/updateServiceProvider/:id', catchErrors(updateServiceProvider)) // Mise à jour d'un prestataire
 router.delete('/deleteServiceProvider/:id', catchErrors(deleteServiceProvider)) // Suppression d'un prestataire

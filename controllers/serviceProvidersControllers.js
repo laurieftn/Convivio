@@ -35,6 +35,6 @@ export const getAllServiceProviders = async function(req, res) {
 }
 
 export const getAllServiceProvidersByType = async function(req, res) {
-    const provider = await ServiceProviderModel.find({typeProvider: req.params.providerType})
+    const provider = await ServiceProviderModel.find({type: req.params.type})
     res.send(provider)
 }
