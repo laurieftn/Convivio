@@ -9,8 +9,7 @@ const router = express.Router()
 
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
-// router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
-// router.get('/api/protected', (protected))
+router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements

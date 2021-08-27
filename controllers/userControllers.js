@@ -39,11 +39,9 @@ export const getAllUsers = async function(req, res) {
 
 // ** Création du token d'authentification avec jwt
 export async function login(req, res) { // Route d'authentification
-    console.log(req.body.pseudo);
     const user = await UserModel.login(req.body.pseudo, req.body.password); // Login de l'utilisateur avec pseudo et mot de passe
-    console.log(user)
     if (user) {
-        const token = jwt.sign({user}, 'my_secret_key'); // Génération du token
+        const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
         res.json({
             token, user
         });
@@ -52,34 +50,22 @@ export async function login(req, res) { // Route d'authentification
     }
 };
 
-// export function protected (req, res) {
-//     console.log(req.token);
-//     jwt.verify(req.token, 'my_secret_key', (err, data) => {
-//         if (err) {
-//             res.status(403).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
-//         } else {
-//             res.json({
-//                 text: 'protected',
-//                 data: data,
-//             });
-//         }
-//     })
-// };
-
 export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
-    const bearerHeader = req.headers['authorization'];
-    const bearer = bearerHeader.split(" ");
-    const bearerToken = bearer[1];
-    if (bearerToken !== 'undefined') {
- // Bearer = prefixe token
-        jwt.verify(bearerToken, 'my_secret_key', (err) => {
-            if (err) {
-                res.status(401).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
-            } else {
-                req.token = bearerToken; // Conserve le token dans l'objet de la demande
-                next();
-            }
-        })
+    if (req.headers['authorization'] !== undefined){
+        const bearerHeader = req.headers['authorization'];
+        const bearer = bearerHeader.split(" ");
+        const bearerToken = bearer[1];
+        if (bearerToken !== 'undefined') {
+    // Bearer = prefixe token
+            jwt.verify(bearerToken, 'my_secret_key', (err) => {
+                if (err) {
+                    res.status(401).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
+                } else {
+                    req.token = bearerToken; // Conserve le token dans l'objet de la demande
+                    next();
+                }
+            })
+        }
     } else {
         res.sendStatus(401).send(err.message);
     }
