@@ -23,9 +23,6 @@ const serviceProviderSchema = new mongoose.Schema({
     website :{
         type: String,
         trim: true,
-    },
-    price: {
-        type:Number
     }
 })
 
