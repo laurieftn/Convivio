@@ -1,9 +1,11 @@
 import ServiceProviderModel from "../models/serviceProviderModel.js"
 
 export const createServiceProvider = async function(req, res) {
-    const provider = new ServiceProviderModel(...res.body)
-    await provider.save()
-    res.status(200).send(provider)
+    req.body.map(async (item) =>{
+        const provider = new ServiceProviderModel(item)
+        await provider.save()
+        res.status(200).send(provider)
+    })
 }
 
 export const deleteServiceProvider = async function(req, res) {
