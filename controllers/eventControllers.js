@@ -40,10 +40,8 @@ export const getAllEvents = async function(req,res) {
     res.send(events)
 }
 
-export const getAllEventsFromCustomers = async function(req,res) {
-    const event = await EventModel.find({'user._id' : req.params.id}) // à vérfier
-    .populate('user',['firstname','lastname'])
-    .populate('options.serviceProviders.provider')
+export const getAllEventsFromCustomer = async function(req,res) {
+    const event = await EventModel.find({'user' : req.params.id}) // à vérfier
     res.send(event)
 }
 
@@ -62,5 +60,10 @@ export const getAllEventsFromCity = async function(req,res) {
     const event = await EventModel.find({'eventDescription.city' : req.params.city}) // à vérfier
     .populate('user',['firstname','lastname'])
     .populate('options.serviceProviders.provider')
+    res.send(event)
+}
+
+export const getAllEventsFromProvider = async function(req,res) {
+    const event = await EventModel.find({'options.serviceProviders.provider': req.params.id}) // à vérfier
     res.send(event)
 }

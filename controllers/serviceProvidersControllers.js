@@ -1,7 +1,9 @@
 import ServiceProviderModel from "../models/serviceProviderModel.js"
 
 export const createServiceProvider = async function(req, res) {
+    console.log(req.body)
     req.body.map(async (item) =>{
+        console.log(item)
         const provider = new ServiceProviderModel(item)
         await provider.save()
         res.status(200).send(provider)
@@ -33,6 +35,6 @@ export const getAllServiceProviders = async function(req, res) {
 }
 
 export const getAllServiceProvidersByType = async function(req, res) {
-    const provider = await ServiceProviderModel.find({typeProvider: req.params.providerType})
+    const provider = await ServiceProviderModel.find({type: req.params.type})
     res.send(provider)
 }
