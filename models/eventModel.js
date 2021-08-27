@@ -1,13 +1,10 @@
 import mongoose from 'mongoose'
-import users from './userModel.js'
-
 
 const eventSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: users, // reference à la collection user n'importe peut être que l'id ? 
+        ref: 'users', // reference à la collection users il faut ajouter la fonction populate dans le controller 
     },
-    // user: userSchema, // pour inclure toutes les données
     eventTitle: {
         type: String,
         required: true,
@@ -60,8 +57,8 @@ const eventSchema = new mongoose.Schema({
             type: Number
         }
     },
-    option: {
-        ServiceProvider: [{
+    options: {
+        serviceProviders: [{
             provider:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'serviceProviders',
