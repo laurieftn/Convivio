@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
 const serviceProviderSchema = new mongoose.Schema({
-    ServiceProvider: {
         type:{
             type: String,
             trim: true,
@@ -25,10 +24,6 @@ const serviceProviderSchema = new mongoose.Schema({
             type: String,
             trim: true,
         },
-        price: {
-            type: Number,
-        },
-    }
 })
 
 export default mongoose.model('serviceProviders', serviceProviderSchema)

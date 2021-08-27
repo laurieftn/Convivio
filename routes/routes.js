@@ -1,7 +1,7 @@
 import express from 'express'
 import { createEvent , deleteEvent , updateEvent , getEvent ,getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
-import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
+import { createUser, updateUser, deleteUser, getUser, getAllUsers, login } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 
@@ -18,7 +18,7 @@ router.patch('/updateEvent/:id', catchErrors(updateEvent)) // Mise à jour d'un 
 router.delete('/deleteEvent/:id', catchErrors(deleteEvent)) // Suppression d'un event 
 
 // ----------------------------------
-// USERS --- Routes liées aux utilisateurs de l'app
+// USERS --- Routes liées aux utilisateurs de l'appcreate
 router.post('/createUser', catchErrors(createUser))
 router.get('/getUser/:id', catchErrors(getUser))
 router.get('/getAllUsers', catchErrors(getAllUsers))
