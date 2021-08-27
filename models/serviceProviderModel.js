@@ -26,7 +26,7 @@ const serviceProviderSchema = new mongoose.Schema({
             trim: true,
         },
         price: {
-            type:Number
+            type: Number,
         },
     }
 })
