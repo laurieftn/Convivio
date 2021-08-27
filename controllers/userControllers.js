@@ -13,6 +13,7 @@ export const createUser = async function(req, res) {
 }
 
 export const updateUser = async function(req, res) {
+    console.log(req.params.id, req.body)
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body)
     await user.save()
     res.status(200).send(user) // envoi la réponse

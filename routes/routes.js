@@ -9,7 +9,7 @@ const router = express.Router()
 
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
-router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
+// router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
 // router.get('/api/protected', (protected))
 
 // ----------------------------------
@@ -39,7 +39,7 @@ router.get('/getEquipment/:id', getEquipment)
 router.get('/getAllEquipments', getAllEquipments)
 router.get('/getAllEquipments/type', catchErrors(getAllEquipmentsByType))
 router.delete('/deleteEquipment/:id', catchErrors(deleteEquipment))
-router.patch('/updateEquipment', catchErrors(updateEquipment))
+router.patch('/updateEquipment/:id', catchErrors(updateEquipment))
 
 // ----------------------------------
 // SERVICE PROVIDERS --- Routes liées aux prestataires
