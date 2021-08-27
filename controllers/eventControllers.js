@@ -1,4 +1,5 @@
 import EventModel from '../models/eventModel.js'
+import { formatISO } from 'date-fns'
 
 // create 
 export const createEvent = async function(req, res) {
@@ -41,17 +42,25 @@ export const getAllEvents = async function(req,res) {
 
 export const getAllEventsFromCustomers = async function(req,res) {
     const event = await EventModel.find({'user._id' : req.params.id}) // à vérfier
+    .populate('user',['firstname','lastname'])
+    .populate('options.serviceProviders.provider')
     res.send(event)
 }
 
 export const getAllEventsFromDate = async function(req,res) {
+    const start = req.query.start.replace(' ', '+') // permet de transformer la date de manière à être comparable a mongo
+    const end = req.query.end.replace(' ', '+')
     const event = await EventModel.find(
-        {startDate : {$gte : req.params.start}},
-        {endDate: {$lte : req.param.end}}) // à vérfier
+        {"eventDescription.startDate" : {$gte : start},
+        "eventDescription.endDate": {$lte : end}}) // à vérfier
+    .populate('user',['firstname','lastname'])
+    .populate('options.serviceProviders.provider')
     res.send(event)
 }
 
 export const getAllEventsFromCity = async function(req,res) {
     const event = await EventModel.find({'eventDescription.city' : req.params.city}) // à vérfier
+    .populate('user',['firstname','lastname'])
+    .populate('options.serviceProviders.provider')
     res.send(event)
 }

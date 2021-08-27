@@ -12,7 +12,7 @@ const router = express.Router()
 router.post('/createEvent', catchErrors(createEvent)) // Créer un event 
 router.get('/getAllEvents', catchErrors(getAllEvents)) // Liste de tous les events 
 router.get('/getAllEvents/:id', catchErrors(getAllEventsFromCustomers)) // Liste de tous les events par client
-router.get('/getAllEvents/:date', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
+router.get('/getAllEventsByDate', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
 router.get('/getEvent/:id', catchErrors(getEvent)) // Visualisation d'un event 
 router.patch('/updateEvent/:id', catchErrors(updateEvent)) // Mise à jour d'un event 
 router.delete('/deleteEvent/:id', catchErrors(deleteEvent)) // Suppression d'un event 
