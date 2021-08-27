@@ -20,7 +20,7 @@ export const deleteEvent = async function(req,res) {
 
 // Update
 export const updateEvent = async function(req,res) {
-    const event = await EventModel.findByIdAndUpdate(req.params.id, req.body)
+    const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
     await event.save()
     res.status(200).send(event)
 }

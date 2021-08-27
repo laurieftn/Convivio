@@ -19,7 +19,7 @@ export const deleteServiceProvider = async function(req, res) {
 }
 
 export const updateServiceProvider = async function(req, res) {
-    const provider = await ServiceProviderModel.findByIdAndUpdate(req.params.id, ...req.body)
+    const provider = await ServiceProviderModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
     await provider.save()
     res.status(200).send()
 }

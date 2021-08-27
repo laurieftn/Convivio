@@ -17,7 +17,7 @@ export const deleteEquipment = async function(req, res) {
 }
 
 export const updateEquipment = async function(req, res) {
-    const equipment = await StockModel.findByIdAndUpdate(req.params.id, req.body)
+    const equipment = await StockModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
     await equipment.save()
     res.status(200).send(equipment)
 }
