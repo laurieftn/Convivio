@@ -15,13 +15,13 @@ export const deleteServiceProvider = async function(req, res) {
     if (!provider) {
         res.status(404).send('Le fournisseur n\'est pas enregistré')
     }
-    res.status(200).send()
+    res.status(200).send(provider)
 }
 
 export const updateServiceProvider = async function(req, res) {
     const provider = await ServiceProviderModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
     await provider.save()
-    res.status(200).send()
+    res.status(200).send(provider)
 }
 
 export const getServiceProvider = async function(req, res) {
