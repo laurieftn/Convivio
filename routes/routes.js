@@ -1,5 +1,5 @@
 import express from 'express'
-import { createEvent, deleteEvent, updateEvent, getEvent, getAllEvents, getAllEventsFromCustomers, getAllEventsFromDate, getAllEventsFromCity }from '../controllers/eventControllers.js'
+import { createEvent, deleteEvent, updateEvent, getEvent, getAllEvents, getAllEventsFromCustomer, getAllEventsFromDate, getAllEventsFromCity, getAllEventsFromProvider }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
 import { createUser, updateUser, deleteUser, getUser, getAllUsers, login } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
@@ -11,7 +11,8 @@ const router = express.Router()
 // EVENTS --- Routes liées aux évènements
 router.post('/createEvent', catchErrors(createEvent)) // Créer un event 
 router.get('/getAllEvents', catchErrors(getAllEvents)) // Liste de tous les events 
-router.get('/getAllEvents/:id', catchErrors(getAllEventsFromCustomers)) // Liste de tous les events par client
+router.get('/getAllEventsFromCustomer/:id', catchErrors(getAllEventsFromCustomer)) // Liste de tous les events par client
+router.get('/getAllEventsFromProvider/:id', catchErrors(getAllEventsFromProvider)) // Liste de tous les events par prestataire
 router.get('/getAllEventsFromDate/:date', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
 router.get('/getAllEventsFromCity/:city', catchErrors(getAllEventsFromCity)) // Liste de tous les events par ville
 router.get('/getEvent/:id', catchErrors(getEvent)) // Visualisation d'un event 

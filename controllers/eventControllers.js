@@ -39,8 +39,8 @@ export const getAllEvents = async function(req,res) {
     res.send(events)
 }
 
-export const getAllEventsFromCustomers = async function(req,res) {
-    const event = await EventModel.find({'user._id' : req.params.id}) // à vérfier
+export const getAllEventsFromCustomer = async function(req,res) {
+    const event = await EventModel.find({'user' : req.params.id}) // à vérfier
     res.send(event)
 }
 
@@ -52,7 +52,11 @@ export const getAllEventsFromDate = async function(req,res) {
 }
 
 export const getAllEventsFromCity = async function(req,res) {
-    console.log (req.params)
     const event = await EventModel.find({'eventDescription.city' : req.params.city}) // à vérfier
+    res.send(event)
+}
+
+export const getAllEventsFromProvider = async function(req,res) {
+    const event = await EventModel.find({'options.serviceProviders.provider': req.params.id}) // à vérfier
     res.send(event)
 }
