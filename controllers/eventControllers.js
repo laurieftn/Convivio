@@ -52,6 +52,7 @@ export const getAllEventsFromDate = async function(req,res) {
 }
 
 export const getAllEventsFromCity = async function(req,res) {
+    console.log (req.params)
     const event = await EventModel.find({'eventDescription.city' : req.params.city}) // à vérfier
     res.send(event)
 }
