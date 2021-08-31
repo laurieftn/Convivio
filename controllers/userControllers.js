@@ -6,6 +6,7 @@ const app = express();
 
 export const createUser = async function(req, res) {
     req.body.map(async (item) =>{
+        item.password = await UserModel.hashing(item.password)
         const user = new UserModel(item)
         await user.save() // sauvegarde dans la bdd
         res.status(200).send(user) // envoi la réponse
@@ -39,12 +40,18 @@ export const getAllUsers = async function(req, res) {
 
 // ** Création du token d'authentification avec jwt
 export async function login(req, res) { // Route d'authentification
-    const user = await UserModel.login(req.body.pseudo, req.body.password); // Login de l'utilisateur avec pseudo et mot de passe
+    const user = await UserModel.findOne({pseudo: req.body.pseudo})
     if (user) {
-        const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
-        res.json({
-            token, user
-        });
+        const check = await UserModel.checkPassword(user, req.body.password)
+        console.log(check)
+        if (check) {
+            const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
+            res.json({
+                token, user
+            });
+        } else {
+            res.status(404).send('Mot de passe incorrect.')
+        }
     } else {
         res.status(404).send('Utilisateur inexistant.')
     }
