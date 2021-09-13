@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
-import { login } from '../controllers/userControllers.js';
 
 const userSchema = new mongoose.Schema({
     pseudo: {
@@ -85,18 +84,18 @@ const userSchema = new mongoose.Schema({
 { timestamps: true } // pour les champs createdAt et updatedAt
 )
 
-userSchema.statics.login = async function(pseudo, password){ // Fonction qui permet de logger l'utilisateur
-    const user = await this.findOne({pseudo}) // cherche selon un pseudo
-    if (user) {
-        // if (user.password == password) // si le mdp est bon, ok
-        // {
-            return user
-    }
+// possibilité de faire les methodes en async ou sync mais comme le hash demande de la ressource CPU il est conseillé de la faire en async pour ne pas bloquer le chargement de la page 
 
-   // HASH PASSWORD avec Bcrypt
-   const salt = await bcrypt.genSalt(10);
-   user.password = await bcrypt.hash(user.password, salt);
-   user.save().then((doc) => res.status(201).send(doc));
+userSchema.statics.checkPassword = async function(user, password) {
+    if (await bcrypt.compare(password, user.password)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+userSchema.statics.hashing = async function(password) {
+        return bcrypt.hash(password, 10)
 }
 
 export default mongoose.model('users', userSchema)

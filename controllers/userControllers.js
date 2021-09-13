@@ -6,6 +6,7 @@ const app = express();
 
 export const createUser = async function(req, res) {
     req.body.map(async (item) =>{
+        item.password = await UserModel.hashing(item.password)
         const user = new UserModel(item)
         await user.save() // sauvegarde dans la bdd
         res.status(200).send(user) // envoi la réponse
@@ -39,47 +40,39 @@ export const getAllUsers = async function(req, res) {
 
 // ** Création du token d'authentification avec jwt
 export async function login(req, res) { // Route d'authentification
-    console.log(req.body.pseudo);
-    const user = await UserModel.login(req.body.pseudo, req.body.password); // Login de l'utilisateur avec pseudo et mot de passe
-    console.log(user)
+    const user = await UserModel.findOne({pseudo: req.body.pseudo})
     if (user) {
-        const token = jwt.sign({user}, 'my_secret_key'); // Génération du token
-        res.json({
-            token, user
-        });
+        const check = await UserModel.checkPassword(user, req.body.password)
+        console.log(check)
+        if (check) {
+            const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
+            res.json({
+                token, user
+            });
+        } else {
+            res.status(404).send('Mot de passe incorrect.')
+        }
     } else {
         res.status(404).send('Utilisateur inexistant.')
     }
 };
 
-// export function protected (req, res) {
-//     console.log(req.token);
-//     jwt.verify(req.token, 'my_secret_key', (err, data) => {
-//         if (err) {
-//             res.status(403).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
-//         } else {
-//             res.json({
-//                 text: 'protected',
-//                 data: data,
-//             });
-//         }
-//     })
-// };
-
 export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
-    const bearerHeader = req.headers['authorization'];
-    const bearer = bearerHeader.split(" ");
-    const bearerToken = bearer[1];
-    if (bearerToken !== 'undefined') {
- // Bearer = prefixe token
-        jwt.verify(bearerToken, 'my_secret_key', (err) => {
-            if (err) {
-                res.status(401).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
-            } else {
-                req.token = bearerToken; // Conserve le token dans l'objet de la demande
-                next();
-            }
-        })
+    if (req.headers['authorization'] !== undefined){
+        const bearerHeader = req.headers['authorization'];
+        const bearer = bearerHeader.split(" ");
+        const bearerToken = bearer[1];
+        if (bearerToken !== 'undefined') {
+    // Bearer = prefixe token
+            jwt.verify(bearerToken, 'my_secret_key', (err) => {
+                if (err) {
+                    res.status(401).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
+                } else {
+                    req.token = bearerToken; // Conserve le token dans l'objet de la demande
+                    next();
+                }
+            })
+        }
     } else {
         res.sendStatus(401).send(err.message);
     }
