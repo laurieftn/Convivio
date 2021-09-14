@@ -13,15 +13,15 @@ router.post('/api/login', (login))
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements
-router.post('/createEvent', catchErrors(createEvent)) // Créer un event 
-router.get('/getAllEvents', catchErrors(getAllEvents)) // Liste de tous les events 
+router.post('/createEvent', catchErrors(createEvent)) // Créer un event
+router.get('/getAllEvents', catchErrors(getAllEvents)) // Liste de tous les events
 router.get('/getAllEventsFromCustomer/:id', catchErrors(getAllEventsFromCustomer)) // Liste de tous les events par client
 router.get('/getAllEventsFromProvider/:id', catchErrors(getAllEventsFromProvider)) // Liste de tous les events par prestataire
 router.get('/getAllEventsFromDate', catchErrors(getAllEventsFromDate)) // Liste de tous les events par date
 router.get('/getAllEventsFromCity/:city', catchErrors(getAllEventsFromCity)) // Liste de tous les events par ville
-router.get('/getEvent/:id', catchErrors(getEvent)) // Visualisation d'un event 
-router.patch('/updateEvent/:id', catchErrors(updateEvent)) // Mise à jour d'un event 
-router.delete('/deleteEvent/:id', catchErrors(deleteEvent)) // Suppression d'un event 
+router.get('/getEvent/:id', catchErrors(getEvent)) // Visualisation d'un event
+router.patch('/updateEvent/:id', catchErrors(updateEvent)) // Mise à jour d'un event
+router.delete('/deleteEvent/:id', catchErrors(deleteEvent)) // Suppression d'un event
 
 // ----------------------------------
 // USERS --- Routes liées aux utilisateurs de l'appcreate
@@ -36,7 +36,7 @@ router.delete('/deleteUser/:id', catchErrors(deleteUser))
 router.post('/createEquipment', createEquipment)
 router.get('/getEquipment/:id', getEquipment)
 router.get('/getAllEquipments', getAllEquipments)
-router.get('/getAllEquipments/type', catchErrors(getAllEquipmentsByType))
+router.get('/getAllEquipments/:type', catchErrors(getAllEquipmentsByType))
 router.delete('/deleteEquipment/:id', catchErrors(deleteEquipment))
 router.patch('/updateEquipment/:id', catchErrors(updateEquipment))
 
