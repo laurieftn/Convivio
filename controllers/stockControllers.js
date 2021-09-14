@@ -5,7 +5,7 @@ export const createEquipment = async function(req, res) {
             const equipment = new StockModel(item)
             await equipment.save().then((response) => {
             res.status(200).send(response)
-        }).catch(error => res.status(500).send(error._message))
+        }).catch(error => res.status(500).send(error.message))
         })
 }
 
@@ -18,7 +18,7 @@ export const deleteEquipment = async function(req, res) {
 }
 
 export const updateEquipment = async function(req, res) {
-    const equipment = await StockModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, async (error, doc) => {
+    const equipment = await StockModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, doc) => {
         if (!error) {
                 return doc
         } else {
@@ -29,7 +29,7 @@ export const updateEquipment = async function(req, res) {
 }
 
 export const getEquipment = async function(req, res) {
-    const equipment = await StockModel.findById(req.params.id, async (error, doc) => {
+    const equipment = await StockModel.findById(req.params.id,  (error, doc) => {
         if (!error) {
                 return doc
         } else {
