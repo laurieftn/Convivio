@@ -58,7 +58,6 @@ export async function login(req, res) { // Route d'authentification
     const user = await UserModel.findOne({pseudo: req.body.pseudo})
     if (user) {
         const check = await UserModel.checkPassword(user, req.body.password)
-        console.log(check)
         if (check) {
             const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
             res.json({
