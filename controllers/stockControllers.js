@@ -54,4 +54,3 @@ export const getAllEquipmentsByType = async function(req, res) {
     }
     res.status(200).send(equipment)
 }
-
