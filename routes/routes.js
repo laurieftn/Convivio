@@ -4,9 +4,10 @@ import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAll
 import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
+import cors from 'cors'
 
 const router = express.Router()
-
+router.use(cors())
 // LOGIN + PROTECTION des routes
 router.post('/api/login', (login))
 // router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées

@@ -78,24 +78,20 @@ const userSchema = new mongoose.Schema({
         unique:true
     },
     deletedAt: {
-        type: Date    
+        type: Date
     }
 },
 { timestamps: true } // pour les champs createdAt et updatedAt
 )
 
-// possibilité de faire les methodes en async ou sync mais comme le hash demande de la ressource CPU il est conseillé de la faire en async pour ne pas bloquer le chargement de la page 
+// possibilité de faire les methodes en async ou sync mais comme le hash demande de la ressource CPU il est conseillé de la faire en async pour ne pas bloquer le chargement de la page
 
 userSchema.statics.checkPassword = async function(user, password) {
-    if (await bcrypt.compare(password, user.password)) {
-        return true
-    } else {
-        return false
-    }
+    return await bcrypt.compare(password, user.password)
 }
 
 userSchema.statics.hashing = async function(password) {
-        return bcrypt.hash(password, 10)
+    return bcrypt.hash(password, 10)
 }
 
 export default mongoose.model('users', userSchema)
