@@ -1,7 +1,7 @@
 import express from 'express'
 import { createEvent, deleteEvent, updateEvent, getEvent, getAllEvents, getAllEventsFromCustomer, getAllEventsFromDate, getAllEventsFromCity, getAllEventsFromProvider }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
-import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
+import { createUser, updateUser, deleteUser, getUser, getAllUsers, login, refreshAccessToken, ensureToken } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 import cors from 'cors'
@@ -9,8 +9,9 @@ import cors from 'cors'
 const router = express.Router()
 router.use(cors())
 // LOGIN + PROTECTION des routes
-router.post('/api/login', (login))
-// router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
+router.post('/api/login', login)
+router.use(ensureToken); // Toutes les routes sous le ensureToken sont protégées
+router.get('/refreshToken', refreshAccessToken)
 
 // ----------------------------------
 // EVENTS --- Routes liées aux évènements

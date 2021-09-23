@@ -59,9 +59,13 @@ export async function login(req, res) { // Route d'authentification
     if (user) {
         const check = await UserModel.checkPassword(user, req.body.password)
         if (check) {
-            const token = jwt.sign({user}, 'my_secret_key', { expiresIn: '1h' }); // Génération du token avec une durée de vie d'1h
+            let refreshToken = ''
+            if (req.body.remember) {
+                refreshToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: '30 days' })
+            }
+            const accessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: (15 * 60) }) // Génération du token avec une durée de vie de 15 minutes
             res.json({
-                token, user
+                accessToken, user, refreshToken
             });
         } else {
             res.status(404).send('Mot de passe incorrect.')
@@ -70,6 +74,15 @@ export async function login(req, res) { // Route d'authentification
         res.status(404).send('Utilisateur inexistant.')
     }
 };
+
+//** Création d'un token de refresh pour les connexions longue durée */
+export async function refreshAccessToken(req, res) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    const user = jwt.decode(token)
+    const refreshAccessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: (15 * 60) }) // Génération du token avec une durée de vie de 30 jours
+    res.status(200).json({refreshAccessToken})
+}
 
 export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
     if (req.headers['authorization'] !== undefined){
@@ -83,11 +96,12 @@ export function ensureToken(req, res, next) { // Fonction qui sert à vérifier 
                     res.status(401).send(err.message); // Si erreur, va envoyer un statut erreur ou que son token n'existe pas
                 } else {
                     req.token = bearerToken; // Conserve le token dans l'objet de la demande
+                    // req.newToken = jwt.sign(jwt.decode(bearerToken).user, 'my_secret_key', { expiresIn: (15 * 60) }) // créer un nouveau token à partir de l'ancien pour etendre le login
                     next();
                 }
             })
         }
     } else {
-        res.sendStatus(401).send(err.message);
+        res.sendStatus(401);
     }
 }
