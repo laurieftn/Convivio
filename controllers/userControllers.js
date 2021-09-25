@@ -60,9 +60,9 @@ export async function login(req, res) { // Route d'authentification
         const check = await UserModel.checkPassword(user, req.body.password)
         if (check) {
             let refreshToken = ''
-            if (req.body.remember) {
-                refreshToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: '30 days' })
-            }
+            const d = req.body.remember ? '30 days' : 60 * 60 * 8
+            console.log(d)
+            refreshToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: d })
             const accessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: (15 * 60) }) // Génération du token avec une durée de vie de 15 minutes
             res.json({
                 accessToken, user, refreshToken
