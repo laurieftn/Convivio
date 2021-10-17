@@ -38,9 +38,9 @@ export const getUser = async function(req, res) {
         if (!error) {
                 return doc
         } else {
-            return res.status(404).send('L\'utilisateur n\'a pas été trouvé')
+            return res.status(401).send('L\'utilisateur n\'a pas été trouvé')
         }
-    }) // si ça ne fonctionne pas ajouter un .exec()
+    })
     res.send(user)
 }
 
@@ -59,12 +59,10 @@ export async function login(req, res) { // Route d'authentification
     if (user) {
         const check = await UserModel.checkPassword(user, req.body.password)
         if (check) {
-            let refreshToken = ''
             const d = req.body.remember ? '30 days' : 60 * 60 * 8
-            refreshToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: d })
-            const accessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: (15 * 60) }) // Génération du token avec une durée de vie de 15 minutes
+            const accessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: d }) // Génération du token avec une durée de vie de 8h ou 30 jours
             res.json({
-                accessToken, user, refreshToken
+                accessToken, user
             });
         } else {
             res.status(404).send('Mot de passe incorrect.')
@@ -73,15 +71,6 @@ export async function login(req, res) { // Route d'authentification
         res.status(404).send('Utilisateur inexistant.')
     }
 };
-
-//** Création d'un token de refresh pour les connexions longue durée */
-export async function refreshAccessToken(req, res) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    const user = jwt.decode(token)
-    const refreshAccessToken = await jwt.sign({ user }, 'my_secret_key', { expiresIn: (15 * 60) }) // Génération du token avec une durée de vie de 30 jours
-    res.status(200).json({refreshAccessToken})
-}
 
 export function ensureToken(req, res, next) { // Fonction qui sert à vérifier que l'user qui suit cette route a créé un token avant
     if (req.headers['authorization'] !== undefined){
