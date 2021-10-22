@@ -26,7 +26,7 @@ export const updateServiceProvider = async function(req, res) {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(200).send(provider)
+    res.status(204).send(provider)
 }
 
 export const getServiceProvider = async function(req, res) {
@@ -37,7 +37,7 @@ export const getServiceProvider = async function(req, res) {
             return res.status(404).send('Le prestataire n\'a pas été trouvé')
         }
     })
-    res.send(provider)
+    res.status(200).send(provider)
 }
 
 export const getAllServiceProviders = async function(req, res) {
@@ -45,7 +45,7 @@ export const getAllServiceProviders = async function(req, res) {
     if ( provider.length < 1 ) {
         return res.status(404).send('Aucun prestatataire n\'a été trouvé')
     }
-    res.send(provider)
+    res.status(200).send(provider)
 }
 
 export const getAllServiceProvidersByType = async function(req, res) {
@@ -53,5 +53,5 @@ export const getAllServiceProvidersByType = async function(req, res) {
     if ( provider.length < 1 ) {
         return res.status(404).send('Aucun prestatataire n\'a été trouvé')
     }
-    res.send(provider)
+    res.status(200).send(provider)
 }

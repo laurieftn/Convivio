@@ -25,7 +25,7 @@ export const updateEquipment = async function(req, res) {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(200).send(equipment)
+    res.status(204).send(equipment)
 }
 
 export const getEquipment = async function(req, res) {

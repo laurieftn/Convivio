@@ -22,7 +22,7 @@ export const updateUser = async function(req, res) {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(200).send(user) // envoi la réponse
+    res.status(204).send(user) // envoi la réponse
 }
 
 export const deleteUser = async function(req, res) {
@@ -41,7 +41,7 @@ export const getUser = async function(req, res) {
             return res.status(401).send('L\'utilisateur n\'a pas été trouvé')
         }
     })
-    res.send(user)
+    res.status(200).send(user)
 }
 
 export const getAllUsers = async function(req, res) {
@@ -49,7 +49,7 @@ export const getAllUsers = async function(req, res) {
     if ( users.length < 1 ) {
         return res.status(404).send('Aucun utilisateur n\'a été trouvé')
     }
-    res.send(users)
+    res.status(200).send(users)
 }
 
 

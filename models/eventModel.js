@@ -3,28 +3,28 @@ import mongoose from 'mongoose'
 const eventSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users', // reference à la collection users il faut ajouter la fonction populate dans le controller 
+        ref: 'users', // reference à la collection users il faut ajouter la fonction populate dans le controller
     },
     eventTitle: {
         type: String,
         required: true,
         trim: true,
         lowercase: true,
-        index: true 
+        index: true
     },
     eventDescription: {
         description: {
             type: String,
             required: true,
             trim: true,
-            lowercase: true  
+            lowercase: true
         },
         city: {
             type: String,
             required: true,
             trim: true,
             lowercase: true,
-            index: true 
+            index: true
         },
         zipcode:{
             type: String,
@@ -37,13 +37,13 @@ const eventSchema = new mongoose.Schema({
             type: String,
             required: true,
             trim: true,
-            lowercase: true  
+            lowercase: true
         },
         eventType: {
             type: String,
             required: true,
             trim: true,
-            lowercase: true  
+            lowercase: true
         },
         startDate: {
             type: Date,
@@ -55,6 +55,10 @@ const eventSchema = new mongoose.Schema({
         },
         numberOfPeople: {
             type: Number
+        },
+        public: {
+            type: Boolean,
+            required: true
         }
     },
     options: {
@@ -92,7 +96,7 @@ const eventSchema = new mongoose.Schema({
         type: Number
     },
     deletedAt: {
-        type: Date    
+        type: Date
     }
 },
 { timestamps: true } // pour les champs createdAt et updatedAt

@@ -11,7 +11,7 @@ export const createEvent = async function(req, res) {
 }
 
 // Delete
-export const deleteEvent = async function(req,res) {
+export const deleteEvent = async function(req, res) {
     const event = await EventModel.findByIdAndDelete(req.params.id)
     if (!event) {
         res.status(404).send('Aucun évènement trouvé.')
@@ -20,7 +20,8 @@ export const deleteEvent = async function(req,res) {
 }
 
 // Update
-export const updateEvent = async function(req,res) {
+export const updateEvent = async function(req, res) {
+    console.log(req.body)
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, doc) => {
         if (!error) {
                 return doc
@@ -28,11 +29,11 @@ export const updateEvent = async function(req,res) {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(200).send(event)
+    res.status(204).send(event)
 }
 
 // Read One
-export const getEvent = async function(req,res) {
+export const getEvent = async function(req, res) {
     const event = await EventModel.findById(req.params.id, (error, doc) => {
         if (!error) {
                 return doc
@@ -43,8 +44,19 @@ export const getEvent = async function(req,res) {
     res.send(event)
 }
 
+//read All public event
+export const getAllPublicEvents = async function(req, res) {
+    const events = await EventModel.find({ 'eventDescription.public': true })
+    .populate('user',['firstname','lastname'])
+    .populate('options.serviceProviders.provider')
+    .catch(error => res.status(500).send(error.message))
+    if ( events.length < 1 ) {
+        return res.status(404).send('Aucun évènement n\'a été trouvé')
+    }
+    res.send(events)
+}
 //read All
-export const getAllEvents = async function(req,res) {
+export const getAllEvents = async function(req, res) {
     const events = await EventModel.find({})
     .populate('user',['firstname','lastname'])
     .populate('options.serviceProviders.provider')
@@ -55,7 +67,7 @@ export const getAllEvents = async function(req,res) {
     res.send(events)
 }
 
-export const getAllEventsFromCustomer = async function(req,res) {
+export const getAllEventsFromCustomer = async function(req, res) {
     const events = await EventModel.find({'user' : req.params.id})
     .populate('user',['firstname','lastname'])
     .populate('options.serviceProviders.provider')
@@ -66,7 +78,7 @@ export const getAllEventsFromCustomer = async function(req,res) {
     res.send(events)
 }
 
-export const getAllEventsFromDate = async function(req,res) {
+export const getAllEventsFromDate = async function(req, res) {
     const start = req.query.start.replace(' ', '+') // permet de transformer la date de manière à être comparable a mongo
     const end = req.query.end.replace(' ', '+')
     const events = await EventModel.find({
