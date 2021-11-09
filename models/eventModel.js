@@ -12,6 +12,12 @@ const eventSchema = new mongoose.Schema({
         lowercase: true,
         index: true
     },
+    eventPicture: {
+        type: String,
+        required: false,
+        trim: true,
+        lowercase: true
+    },
     eventDescription: {
         description: {
             type: String,
