@@ -93,6 +93,9 @@ const eventSchema = new mongoose.Schema({
             }
         }]
     },
+    private: {
+        type: Boolean,
+    },
     comment: {
         type: String,
         trim: true,

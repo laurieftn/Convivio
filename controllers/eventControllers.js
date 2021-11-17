@@ -21,15 +21,14 @@ export const deleteEvent = async function(req, res) {
 
 // Update
 export const updateEvent = async function(req, res) {
-    console.log(req.body)
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, doc) => {
         if (!error) {
-                return doc
+            return doc
         } else {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(204).send(event)
+    res.status(200).send(event)
 }
 
 // Read One
