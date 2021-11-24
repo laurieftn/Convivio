@@ -96,13 +96,45 @@ const eventSchema = new mongoose.Schema({
     private: {
         type: Boolean,
     },
+    status: {
+        status: {
+            type: String,
+            required: true,
+            trim: true,
+            lowercase: true,
+            enum: ['started', 'description', 'concepting', 'dating', 'placing', 'servicing', 'scheduled', 'budgeting', 'validating', 'billing', 'archived' ] // limite à ces valeurs
+        },
+        date: {
+            type: Date,
+            required: true
+        },
+        current: {
+            type: Boolean,
+            required: true
+        },
+        comment: {
+            type: String,
+            required: false
+        }
+    },
     comment: {
         type: String,
         trim: true,
         lowercase: true,
     },
-    totalPrice: {
-        type: Number
+    price: {
+        budget: {
+            type: Number,
+            required: false
+        },
+        location:{
+            type: Number,
+            required: false
+        },
+        service: {
+            type: Number,
+            required: false
+        }
     },
     deletedAt: {
         type: Date
