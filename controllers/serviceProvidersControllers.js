@@ -26,7 +26,7 @@ export const updateServiceProvider = async function(req, res) {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(204).send(provider)
+    res.status(200).send(provider)
 }
 
 export const getServiceProvider = async function(req, res) {

@@ -17,12 +17,12 @@ export const createUser = async function(req, res) {
 export const updateUser = async function(req, res) {
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, doc) => {
         if (!error) {
-                return doc
+            return doc
         } else {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
     })
-    res.status(204).send(user) // envoi la réponse
+    res.status(200).send(user) // envoi la réponse
 }
 
 export const deleteUser = async function(req, res) {
