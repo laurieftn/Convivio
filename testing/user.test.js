@@ -23,6 +23,16 @@ describe('Login', function () {
     expect(response.status).to.eql(404)
     expect(response.text).to.eql('Mot de passe incorrect.')
   })
+
+  // it('login', async function() {
+  //   const response = await request(app).post('/api/login').send({
+  //     "pseudo": process.env.TEST_USER,
+  //     "password":process.env.TEST_PWD,
+  //     "remember": false
+  //   })
+  //   expect(response.status).to.eql(200)
+  //   // expect(response.text).to.eql('Mot de passe incorrect.')
+  // })
 })
 
 

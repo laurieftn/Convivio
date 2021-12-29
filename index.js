@@ -11,6 +11,7 @@ app.use(express.json()) // Pour que le serveur retourne les données en json
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify : false,
 })
