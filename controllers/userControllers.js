@@ -28,7 +28,7 @@ export const updateUser = async function(req, res) {
 export const deleteUser = async function(req, res) {
     const user = await UserModel.findByIdAndDelete(req.params.id)
     if (!user) {
-        res.status(404).send('Aucun évènement trouvé.')
+        res.status(404).send('Aucun utilisateur trouvé.')
     }
     res.status(200).send() // envoi la réponse
 }
