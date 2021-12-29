@@ -22,8 +22,4 @@ app.listen(PORT, () => {
     console.log(`Environnement de ${ENV}`)
 })
 
-
-
-
-
-
+export default app

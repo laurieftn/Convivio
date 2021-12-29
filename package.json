@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "set NODE_ENV=test&& mocha ./testing/*.test.cjs",
-    "test:watch": "set NODE_ENV=test&& mocha ./testing/*.test.cjs -w",
+    "test": "set NODE_ENV=test&& mocha ./routes/*.test.js",
     "start": "node index.js",
     "start:watch": "nodemon index"
   },
