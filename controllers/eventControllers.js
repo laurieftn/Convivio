@@ -4,6 +4,7 @@ import EventModel from '../models/eventModel.js'
 export const createEvent = async function(req, res) {
     req.body.map( async item =>  {
         const event = new EventModel(item)
+        console.log('controller', event)
         await event.save().then((response) => { // sauvegarde dans la bdd
             res.status(200).send(response) // envoi la réponse
         }).catch(error => res.status(500).send(error.message))

@@ -17,10 +17,10 @@ Stéphane Cavillon
 
 - Installation de node.js (minimum version 14.0.0)
 
-- Installation de npm 
+- Installation de npm
     `npm install -g npm@latest` (à confirmer)
 
-- Installation des dépendances 
+- Installation des dépendances
     `npm install`
 
 # Lancement du server local
@@ -28,17 +28,17 @@ Stéphane Cavillon
 - `npm start` ou `nodemon index.js`
 
 # Deploiement de l'API
-- Installer le cli Heroku : 
+- Installer le cli Heroku :
    `https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up`
 
 - Créer l'application sur heroku :
     `heroku create <nom de l'app>`
 
-- push de l'application sur heroku : 
+- push de l'application sur heroku :
     `git push heroku master` ou `git push heroku <nom de branche>:main` (si le déploiement se fait à partir d'une branche)
 
 ## Pousser les changements sur l'API
-- Ajouter la remote vers heroku : 
+- Ajouter la remote vers heroku :
     `git add remote heroku https://git.heroku.com/convivio-api.git`
 
 - Enregistrer les modifications effectués
@@ -46,3 +46,7 @@ Stéphane Cavillon
 
 - pusher ces modifications sur la remote heroku
     `git push heroku master`
+
+# Testing
+- installer mocha globallement
+    npm run test:watch
