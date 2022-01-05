@@ -50,6 +50,12 @@ describe('Event Controller', function() {
     }
   }
 
+  it('/GET get all public event', async () => {
+    const response = await request(app)
+      .get('/getAllPublicEvents')
+    expect(response.body.map(e => e.eventDescription.public )).to.not.include(false)
+  })
+
   it('/POST create event', async () => {
     const response = await request(app)
       .post('/createEvent')
