@@ -27,28 +27,54 @@ describe('Event Controller', function() {
       "numberOfPeople": 500,
       "public": false
     },
-    "option": {
-      "ServiceProvider": [{
+    "options": {
+      "serviceProviders": [{
         "provider": "6127b02395609523d8bd9cc1",
-        "comment": "Ramène sa platine pour 299.99 €/ minute HT"
+        "comment": "ramène sa platine pour 299.99 €/ minute ht"
       }],
-      "equipment": [{
-        "type": "micro",
+      "equipments": [{
+        "equipment": "61279864a0718a0f307df3d8",
         "neededQuantity": 2,
         "priceRent": 200
       }]
     },
-    "comment": "Ils sont chaud les marrons",
-    "totalPrice": 14000000
+    "status": {
+      "status": "started",
+      "date": "2021-11-06T20:00:00.000Z",
+      "current": true,
+      "comment": "current is not required"
+    },
+    "comment": "ils sont chaud les marrons",
+    "price": {
+      "budget":14000000
+    }
   }
 
-  it.only('/POST create event', async () => {
+  it('/POST create event', async () => {
     const response = await request(app)
       .post('/createEvent')
       .set('Authorization', `Bearer ${this.token}`)
       .send([newEvent])
     this.eventId = response.body._id
-    console.log(response.body)
+    expect(response.body).to.deep.include(newEvent)
+  })
+
+  it('/PATCH update event with wrong id', async () => {
+    newEvent.eventTitle = "soirée vertigo"
+    const response = await request(app)
+      .patch(`/updateEvent/6127b02395195d523d8d9cc1`)
+      .set('Authorization', `Bearer ${this.token}`)
+      .send({"eventTitle": "soirée vertigo"})
+    expect(response.status).to.eql(400)
+    expect(response.text).to.eql('L\'évènement n\'a pas été trouvé')
+  })
+
+  it('/PATCH update event with good id', async () => {
+    newEvent.eventTitle = "soirée vertigo"
+    const response = await request(app)
+      .patch(`/updateEvent/${this.eventId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+      .send({"eventTitle": "soirée vertigo"})
     expect(response.body).to.deep.include(newEvent)
   })
 
