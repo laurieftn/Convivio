@@ -69,6 +69,7 @@ const eventSchema = new mongoose.Schema({
     },
     options: {
         serviceProviders: [{
+            _id: false,
             provider:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'serviceProviders',
@@ -79,11 +80,11 @@ const eventSchema = new mongoose.Schema({
                 lowercase: true
             }
         }],
-        equipment: [{
-            type: {
-                type: String,
-                trim: true,
-                lowercase: true,
+        equipments: [{
+            _id: false,
+            equipment: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'stocks',
             },
             neededQuantity: {
                 type: Number
