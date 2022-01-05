@@ -4,7 +4,6 @@ import EventModel from '../models/eventModel.js'
 export const createEvent = async function(req, res) {
     req.body.map( async item =>  {
         const event = new EventModel(item)
-        console.log('controller', event)
         await event.save().then((response) => { // sauvegarde dans la bdd
             res.status(200).send(response) // envoi la réponse
         }).catch(error => res.status(500).send(error.message))
@@ -24,7 +23,11 @@ export const deleteEvent = async function(req, res) {
 export const updateEvent = async function(req, res) {
     const event = await EventModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, doc) => {
         if (!error) {
-            return doc
+            if (doc) {
+                return doc
+            } else {
+                return res.status(400).send('L\'évènement n\'a pas été trouvé')
+            }
         } else {
             return res.status(400).send(`La valeur de ${error.path} n'est pas correcte`)
         }
