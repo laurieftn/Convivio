@@ -77,8 +77,10 @@ const userSchema = new mongoose.Schema({
         index: true,
         unique:true
     },
-    deletedAt: {
-        type: Date
+    deleted: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 },
 { timestamps: true } // pour les champs createdAt et updatedAt

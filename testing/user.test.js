@@ -46,7 +46,8 @@ describe('User Controllers', function () {
         "name": "les misérables"
     },
     "phone": "06-00-00-00-00",
-    "mail": "jvaljean@test.fr"
+    "mail": "jvaljean@test.fr",
+    "deleted": false
   }
   const newUser = {
     "pseudo": "jvaljean",
@@ -58,7 +59,8 @@ describe('User Controllers', function () {
     },
     "phone": "06-00-00-00-00",
     "mail": "jvaljean@test.fr",
-    "password": "misère"
+    "password": "misère",
+    "deleted": false
   }
 
   before(async () => {
@@ -78,7 +80,7 @@ describe('User Controllers', function () {
     response.body.map(user => expect(user).to.include.keys('pseudo','role'))
   })
 
-  it('/POST create user', async () => {
+  it.only('/POST create user', async () => {
     const response = await request(app)
       .post('/createUser')
       .set('Authorization', `Bearer ${this.token}`)
@@ -97,16 +99,39 @@ describe('User Controllers', function () {
     expect(response.body).to.be.empty
   })
 
-  it('/DELETE user', async () => {
+  it.only('/DELETE soft delete user', async () => {
+    createdUser.deleted = true
+    const del = await request(app)
+      .delete(`/softDeleteUser/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+    expect(del.body).to.eql({_id: this.userId})
+    const deletedUser = await request(app)
+      .get(`/getUser/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+    expect(deletedUser.body).to.include({ deleted:true })
+    const response = await request(app)
+      .get('/getAllUsers')
+      .set('Authorization', `Bearer ${this.token}`)
+    response.body.map(user => expect(user).to.not.include({ pseudo: createdUser.pseudo, mail: createdUser.mail}))
+  })
+
+  it.only('/POST login soft deleted user', async () => {
+    const response = await request(app).post('/api/login').send({
+      "pseudo": newUser.pseudo,
+      "password":newUser.password,
+      "remember": false
+    })
+    expect(response.status).to.eql(403)
+    expect(response.text).to.eql('Utilisateur archivé')
+  })
+
+  it.only('/DELETE real delete user', async () => {
     const del = await request(app)
       .delete(`/deleteUser/${this.userId}`)
       .set('Authorization', `Bearer ${this.token}`)
     const response = await request(app)
       .get('/getAllUsers')
       .set('Authorization', `Bearer ${this.token}`)
-    expect(response.body).to.not.deep.include(newUser)
+    response.body.map(user => expect(user).to.not.include({ pseudo: createdUser.pseudo, mail: createdUser.mail}))
   })
 })
-
-
-

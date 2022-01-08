@@ -7,7 +7,7 @@ const app = express();
 export const createUser = async function(req, res) {
     req.body.map(async (item) =>{
         item.password = await UserModel.hashing(item.password)
-        const user = new UserModel(item)
+        const user = new UserModel(Object.assign(item, {deleted: false}))
         await user.save().then((response) => {
             res.status(200).send(response)
         }).catch(error => res.status(500).send(error.message))
@@ -25,11 +25,23 @@ export const updateUser = async function(req, res) {
     res.status(200).send(user) // envoi la réponse
 }
 
+// soft delete
+export const softDeleteUser = async function(req, res) {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, {select: '_id'},  (error, doc) => {
+        if (error) {
+        return res.status(404).send('Aucun utilisateur trouvé.')
+        }
+    })
+    // gestion des evenements concernant cet utilisateur
+    res.status(200).send(user) // envoi la réponse
+}
+
+// real delete
 export const deleteUser = async function(req, res) {
     const user = await UserModel.findByIdAndDelete(req.params.id)
-    if (!user) {
-        res.status(404).send('Aucun utilisateur trouvé.')
-    }
+        if (!user) {
+        return res.status(404).send('Aucun utilisateur trouvé.')
+        }
     res.status(200).send() // envoi la réponse
 }
 
@@ -45,7 +57,7 @@ export const getUser = async function(req, res) {
 }
 
 export const getAllUsers = async function(req, res) {
-    const users = await UserModel.find()
+    const users = await UserModel.find({ deleted: false })
     if ( users.length < 1 ) {
         return res.status(404).send('Aucun utilisateur n\'a été trouvé')
     }
@@ -57,6 +69,9 @@ export const getAllUsers = async function(req, res) {
 export async function login(req, res) { // Route d'authentification
     const user = await UserModel.findOne({pseudo: req.body.pseudo})
     if (user) {
+        if (user.deleted === true) {
+            return res.status(403).send('Utilisateur archivé')
+        }
         const check = await UserModel.checkPassword(user, req.body.password)
         if (check) {
             const d = req.body.remember ? '30 days' : 60 * 60 * 8
@@ -65,10 +80,10 @@ export async function login(req, res) { // Route d'authentification
                 accessToken, user
             });
         } else {
-            res.status(404).send('Mot de passe incorrect.')
+           return res.status(404).send('Mot de passe incorrect.')
         }
     } else {
-        res.status(404).send('Utilisateur inexistant.')
+       return res.status(404).send('Utilisateur inexistant.')
     }
 };
 
