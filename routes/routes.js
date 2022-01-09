@@ -1,7 +1,7 @@
 import express from 'express'
 import { createEvent, deleteEvent, updateEvent, getEvent, getAllEvents, getAllPublicEvents, getAllEventsFromCustomer, getAllEventsFromDate, getAllEventsFromCity, getAllEventsFromProvider }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
-import { createUser, updateUser, deleteUser, softDeleteUser, getUser, getArchivedUsers, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
+import { createUser, updateUser, deleteUser, softDeleteUser, restoreUser, getUser, getArchivedUsers, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 import cors from 'cors'
@@ -34,6 +34,7 @@ router.get('/getAllUsers', getAllUsers)
 router.patch('/updateUser/:id', updateUser)
 router.delete('/deleteUser/:id', deleteUser)
 router.delete('/softDeleteUser/:id', softDeleteUser)
+router.patch('/restoreUser/:id', restoreUser)
 
 // ----------------------------------
 // STOCK --- Routes liées à la gestion des stocks des équipements

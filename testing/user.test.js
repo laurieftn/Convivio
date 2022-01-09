@@ -80,7 +80,7 @@ describe('User Controllers', function () {
     response.body.map(user => expect(user).to.include.keys('pseudo','role'))
   })
 
-  it.only('/POST create user', async () => {
+  it('/POST create user', async () => {
     const response = await request(app)
       .post('/createUser')
       .set('Authorization', `Bearer ${this.token}`)
@@ -99,7 +99,7 @@ describe('User Controllers', function () {
     expect(response.body).to.be.empty
   })
 
-  it.only('/DELETE soft delete user', async () => {
+  it('/DELETE soft delete user', async () => {
     createdUser.deleted = true
     const del = await request(app)
       .delete(`/softDeleteUser/${this.userId}`)
@@ -115,7 +115,7 @@ describe('User Controllers', function () {
     response.body.map(user => expect(user).to.not.include({ pseudo: createdUser.pseudo, mail: createdUser.mail}))
   })
 
-  it.only('/POST login soft deleted user', async () => {
+  it('/POST login soft deleted user', async () => {
     const response = await request(app).post('/api/login').send({
       "pseudo": newUser.pseudo,
       "password":newUser.password,
@@ -125,7 +125,19 @@ describe('User Controllers', function () {
     expect(response.text).to.eql('Utilisateur archivé')
   })
 
-  it.only('/DELETE real delete user', async () => {
+  it('/PATCH restore user', async () => {
+    createdUser.deleted = false
+    const restore = await request(app)
+      .patch(`/restoreUser/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+    expect(restore.body).to.deep.include(createdUser)
+    const restoreUser = await request(app)
+      .get(`/getUser/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+    expect(restoreUser.body).to.include({ deleted:false })
+  })
+
+  it('/DELETE real delete user', async () => {
     const del = await request(app)
       .delete(`/deleteUser/${this.userId}`)
       .set('Authorization', `Bearer ${this.token}`)

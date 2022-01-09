@@ -31,6 +31,18 @@ export const softDeleteUser = async function(req, res) {
         if (error) {
         return res.status(404).send('Aucun utilisateur trouvé.')
         }
+        // gestion des evenements concernant cet utilisateur
+        // aller chercher les évènements concernées
+        // update de chaque pour ajouter un commentaire
+    })
+    res.status(200).send(user) // envoi la réponse
+}
+
+export const restoreUser = async function(req, res) {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: false}, {new: true},  (error, doc) => {
+        if (error) {
+        return res.status(404).send('Aucun utilisateur trouvé.')
+        }
     })
     // gestion des evenements concernant cet utilisateur
     res.status(200).send(user) // envoi la réponse
