@@ -1,6 +1,8 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import UserModel from '../models/userModel.js'
+import EventModel from '../models/eventModel.js'
+import { format } from 'date-fns'
 
 const app = express();
 
@@ -27,24 +29,33 @@ export const updateUser = async function(req, res) {
 
 // soft delete
 export const softDeleteUser = async function(req, res) {
-    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, {select: '_id'},  (error, doc) => {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, {select: '_id'},  async (error, doc) => {
         if (error) {
-        return res.status(404).send('Aucun utilisateur trouvé.')
+            return res.status(404).send('Aucun utilisateur trouvé.')
         }
-        // gestion des evenements concernant cet utilisateur
-        // aller chercher les évènements concernées
-        // update de chaque pour ajouter un commentaire
+        // handling of event for this user
+        // get concernded events
+        const events = await EventModel.find({ 'user' : doc._id }, 'comment')
+        // update each event to add commment
+        events.map(async event => {
+            await EventModel.findByIdAndUpdate(event._id, { $set: { comment: `Utilisateur archivé le ${format(Date.now(),'dd/MM/yyyy')} ` + event.comment }})
+        })
     })
     res.status(200).send(user) // envoi la réponse
 }
 
 export const restoreUser = async function(req, res) {
-    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: false}, {new: true},  (error, doc) => {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: false}, {new: true}, async (error, doc) => {
         if (error) {
-        return res.status(404).send('Aucun utilisateur trouvé.')
+            return res.status(404).send('Aucun utilisateur trouvé.')
         }
+        const events = await EventModel.find({ 'user' : doc._id }, 'comment')
+        // update each event to add commment
+        events.map(async event => {
+            await EventModel.findByIdAndUpdate(event._id, { $set: { comment: `Utilisateur restauré le ${format(Date.now(),'dd/MM/yyyy')} ` + event.comment }})
+        })
+
     })
-    // gestion des evenements concernant cet utilisateur
     res.status(200).send(user) // envoi la réponse
 }
 

@@ -71,7 +71,7 @@ export const getAllEvents = async function(req, res) {
 }
 
 export const getAllEventsFromCustomer = async function(req, res) {
-    const events = await EventModel.find({'user' : req.params.id})
+    const events = await EventModel.find({ 'user' : req.params.id })
     .populate('user',['firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))

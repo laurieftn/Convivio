@@ -1,6 +1,7 @@
 import app from '../index.js'
 import request from 'supertest'
 import chai from 'chai'
+import { format } from 'date-fns'
 const expect = chai.expect
 
 describe('/POST Login', function () {
@@ -27,7 +28,7 @@ describe('/POST Login', function () {
   it('good login', async function() {
     const response = await request(app).post('/api/login').send({
       "pseudo": process.env.TEST_USER,
-      "password":process.env.TEST_PWD,
+      "password": process.env.TEST_PWD,
       "remember": false
     })
     expect(response.status).to.eql(200)
@@ -37,6 +38,57 @@ describe('/POST Login', function () {
 })
 
 describe('User Controllers', function () {
+  const newEvent = {
+    "user": null, // test user id
+    "eventTitle": "soirée vernissage",
+    "eventDescription": {
+      "description": "vernissage des toiles de mme de la rivière",
+      "city": "amiens",
+      "zipcode": "80000",
+      "address": "70 rue des jacobins",
+      "eventType": "vernissage",
+      "startDate": "2021-12-06T20:00:00.000Z",
+      "endDate": "2021-12-12T23:59:59.000Z",
+      "numberOfPeople": 500,
+      "public": false
+    },
+    "options": {
+      "serviceProviders": [{
+        "provider": "6127b02395609523d8bd9cc1",
+        "comment": "ramène sa platine pour 299.99 €/ minute ht"
+      }],
+      "equipments": [{
+        "equipment": "61279864a0718a0f307df3d8",
+        "neededQuantity": 2,
+        "priceRent": 200
+      }]
+    },
+    "status": {
+      "status": "started",
+      "date": "2021-11-06T20:00:00.000Z",
+      "current": true,
+      "comment": "current is not required"
+    },
+    "comment": "ils sont chaud les marrons",
+    "price": {
+      "budget":14000000
+    }
+  }
+
+  const createEvent = async (data, userId, token) => {
+    data.user = userId
+    return await request(app)
+      .post('/createEvent')
+      .set('Authorization', `Bearer ${token}`)
+      .send([data])
+  }
+
+  const deleteEvent = async (eventId, token) => {
+    const del = await request(app)
+    .delete(`/deleteEvent/${eventId}`)
+    .set('Authorization', `Bearer ${token}`)
+  }
+
   const createdUser = {
     "pseudo": "jvaljean",
     "role": "customer",
@@ -63,7 +115,7 @@ describe('User Controllers', function () {
     "deleted": false
   }
 
-  before(async () => {
+  before( async () => {
     const response = await request(app).post('/api/login').send({
       "pseudo": process.env.TEST_USER,
       "password":process.env.TEST_PWD,
@@ -100,6 +152,9 @@ describe('User Controllers', function () {
   })
 
   it('/DELETE soft delete user', async () => {
+    // creation of event with test user
+    const event = await createEvent(newEvent, this.userId, this.token)
+    this.eventId = event.body._id
     createdUser.deleted = true
     const del = await request(app)
       .delete(`/softDeleteUser/${this.userId}`)
@@ -115,6 +170,14 @@ describe('User Controllers', function () {
     response.body.map(user => expect(user).to.not.include({ pseudo: createdUser.pseudo, mail: createdUser.mail}))
   })
 
+  it('check if event comment is well modified after soft delete', async () => {
+    newEvent.comment = `utilisateur archivé le ${format(Date.now(),'dd/MM/yyyy')} ` + newEvent.comment
+    const events = await request(app)
+      .get(`/getAllEventsFromCustomer/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+    events.body.map(event => expect(event.comment).to.eql(newEvent.comment))
+  })
+
   it('/POST login soft deleted user', async () => {
     const response = await request(app).post('/api/login').send({
       "pseudo": newUser.pseudo,
@@ -127,15 +190,27 @@ describe('User Controllers', function () {
 
   it('/PATCH restore user', async () => {
     createdUser.deleted = false
-    const restore = await request(app)
-      .patch(`/restoreUser/${this.userId}`)
-      .set('Authorization', `Bearer ${this.token}`)
-    expect(restore.body).to.deep.include(createdUser)
-    const restoreUser = await request(app)
+    it('restore', async () => {
+      const restore = await request(app)
+        .patch(`/restoreUser/${this.userId}`)
+        .set('Authorization', `Bearer ${this.token}`)
+      expect(restore.body).to.deep.include(createdUser)
+    })
+    it('check if deleted === false', async () => {
+      const restoreUser = await request(app)
       .get(`/getUser/${this.userId}`)
       .set('Authorization', `Bearer ${this.token}`)
-    expect(restoreUser.body).to.include({ deleted:false })
+      expect(restoreUser.body).to.include({ deleted:false })
+    })
+
+    it('check if event comment is well modified after restore', async () => {
+      const events = await request(app)
+      .get(`/getAllEventsFromCustomer/${this.userId}`)
+      .set('Authorization', `Bearer ${this.token}`)
+      events.body.map(event => expect(event.comment).to.eql(`utilisateur restauré le ${format(Date.now(),'dd/MM/yyyy')} ` + newEvent.comment))
+    })
   })
+
 
   it('/DELETE real delete user', async () => {
     const del = await request(app)
@@ -145,5 +220,9 @@ describe('User Controllers', function () {
       .get('/getAllUsers')
       .set('Authorization', `Bearer ${this.token}`)
     response.body.map(user => expect(user).to.not.include({ pseudo: createdUser.pseudo, mail: createdUser.mail}))
+  })
+
+  after(async () => {
+    deleteEvent(this.eventId, this.token)
   })
 })

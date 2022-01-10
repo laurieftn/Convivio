@@ -53,7 +53,7 @@ describe('Event Controller', function() {
   it('/GET get all public event', async () => {
     const response = await request(app)
       .get('/getAllPublicEvents')
-    expect(response.body.map(e => e.eventDescription.public )).to.not.include(false)
+    expect(response.body.map(e => { return e.eventDescription.public })).to.not.include(false)
   })
 
   it('/POST create event', async () => {
@@ -68,7 +68,7 @@ describe('Event Controller', function() {
   it('/PATCH update event with wrong id', async () => {
     newEvent.eventTitle = "soirée vertigo"
     const response = await request(app)
-      .patch(`/updateEvent/6127b02395195d523d8d9cc1`)
+      .patch(`/updateEvent/61cc0c82d156960016677a85`)
       .set('Authorization', `Bearer ${this.token}`)
       .send({"eventTitle": "soirée vertigo"})
     expect(response.status).to.eql(400)
@@ -84,14 +84,13 @@ describe('Event Controller', function() {
     expect(response.body).to.deep.include(newEvent)
   })
 
-  it('/DELETE user', async () => {
-    const del = await request(app)
+  it('/DELETE event', async () => {
+    await request(app)
       .delete(`/deleteEvent/${this.eventId}`)
       .set('Authorization', `Bearer ${this.token}`)
     const response = await request(app)
-      .get('/getAllUsers')
+      .get('/getAllEvents')
       .set('Authorization', `Bearer ${this.token}`)
     expect(response.body).to.not.deep.include(newEvent)
   })
-
 })
