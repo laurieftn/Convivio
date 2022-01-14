@@ -65,7 +65,7 @@ describe('Event Controller', function() {
     expect(response.body).to.deep.include(newEvent)
   })
 
-  it('/PATCH update event with wrong id', async () => {
+  it('/PATCH wrong id update event ', async () => {
     newEvent.eventTitle = "soirée vertigo"
     const response = await request(app)
       .patch(`/updateEvent/61cc0c82d156960016677a85`)
@@ -75,7 +75,7 @@ describe('Event Controller', function() {
     expect(response.text).to.eql('L\'évènement n\'a pas été trouvé')
   })
 
-  it('/PATCH update event with good id', async () => {
+  it('/PATCH good id update event ', async () => {
     newEvent.eventTitle = "soirée vertigo"
     const response = await request(app)
       .patch(`/updateEvent/${this.eventId}`)

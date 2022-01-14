@@ -2,6 +2,7 @@ import app from '../index.js'
 import request from 'supertest'
 import chai from 'chai'
 import { format } from 'date-fns'
+import { deleteUser } from '../controllers/userControllers.js'
 const expect = chai.expect
 
 describe('/POST Login', function () {
@@ -84,8 +85,14 @@ describe('User Controllers', function () {
   }
 
   const deleteEvent = async (eventId, token) => {
-    const del = await request(app)
-    .delete(`/deleteEvent/${eventId}`)
+    await request(app)
+      .delete(`/deleteEvent/${eventId}`)
+      .set('Authorization', `Bearer ${token}`)
+  }
+
+  const deleteUser = async (userId, token) => {
+    await request(app)
+    .delete(`/deleteUser/${userId}`)
     .set('Authorization', `Bearer ${token}`)
   }
 
@@ -102,7 +109,6 @@ describe('User Controllers', function () {
     "deleted": false
   }
   const newUser = {
-    "pseudo": "jvaljean",
     "role": "customer",
     "firstname": "jean",
     "lastname": "valjean",
@@ -122,6 +128,7 @@ describe('User Controllers', function () {
       "remember": false
     })
     this.token = response.body.accessToken
+    return
   })
 
   it('/GET all user', async () => {
@@ -180,7 +187,7 @@ describe('User Controllers', function () {
 
   it('/POST login soft deleted user', async () => {
     const response = await request(app).post('/api/login').send({
-      "pseudo": newUser.pseudo,
+      "pseudo": createdUser.pseudo,
       "password":newUser.password,
       "remember": false
     })
@@ -224,5 +231,6 @@ describe('User Controllers', function () {
 
   after(async () => {
     deleteEvent(this.eventId, this.token)
+    deleteUser(this.userId, this.token)
   })
 })

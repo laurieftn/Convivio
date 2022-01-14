@@ -8,6 +8,7 @@ const app = express();
 
 export const createUser = async function(req, res) {
     req.body.map(async (item) =>{
+        item.pseudo = item.firstname.substr(0, 1) + item.lastname
         item.password = await UserModel.hashing(item.password)
         const user = new UserModel(Object.assign(item, {deleted: false}))
         await user.save().then((response) => {
