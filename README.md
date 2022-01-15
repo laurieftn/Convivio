@@ -49,4 +49,11 @@ Stéphane Cavillon
 
 # Testing
 - installer mocha globallement
-    npm run test:watch
+    `npm run test:watch` or `npm test`
+
+# Seed DB
+- users:
+    `node data/seed.js -u n` seed n users
+
+- events:
+    `node data/seed.js -e n` seed n events
