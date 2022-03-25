@@ -11,7 +11,8 @@ const serviceProviderSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        unique:true
     },
     mail: {
         type: String,
