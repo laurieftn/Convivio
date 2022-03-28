@@ -12,7 +12,7 @@ export const createUser = async function(req, res) {
         item.password = await UserModel.hashing(item.password)
         const user = new UserModel(Object.assign(item, {deleted: false}))
         await user.save().then((response) => {
-            res.status(200).send(response)
+            return res.status(200).send(response)
         }).catch(error => res.status(500).send(error.message))
     })
 }
@@ -30,7 +30,7 @@ export const updateUser = async function(req, res) {
 
 // soft delete
 export const softDeleteUser = async function(req, res) {
-    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, {select: '_id'},  async (error, doc) => {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, async (error, doc) => {
         if (error) {
             return res.status(404).send('Aucun utilisateur trouvé.')
         }
@@ -55,7 +55,6 @@ export const restoreUser = async function(req, res) {
         events.map(async event => {
             await EventModel.findByIdAndUpdate(event._id, { $set: { comment: `Utilisateur restauré le ${format(Date.now(),'dd/MM/yyyy')} ` + event.comment }})
         })
-
     })
     res.status(200).send(user) // envoi la réponse
 }
