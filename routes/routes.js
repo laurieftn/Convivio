@@ -1,7 +1,7 @@
 import express from 'express'
 import { createEvent, deleteEvent, updateEvent, getEvent, getAllEvents, getAllPublicEvents, getAllEventsFromCustomer, getAllEventsFromDate, getAllEventsFromCity, getAllEventsFromProvider }from '../controllers/eventControllers.js'
 import { createEquipment, deleteEquipment, updateEquipment, getEquipment, getAllEquipments, getAllEquipmentsByType } from '../controllers/stockControllers.js'
-import { createUser, updateUser, deleteUser, softDeleteUser, restoreUser, getUser, getArchivedUsers, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
+import { createUser, updateUser, deleteUser, softDeleteUser, restoreUser, getUser, getArchivedUsers, getUsersByRole, getAllUsers, login, ensureToken } from '../controllers/userControllers.js'
 import { createServiceProvider, deleteServiceProvider, updateServiceProvider, getServiceProvider, getAllServiceProviders, getAllServiceProvidersByType } from '../controllers/serviceProvidersControllers.js'
 import { catchErrors } from './../helpers.js'
 import cors from 'cors'
@@ -30,6 +30,7 @@ router.delete('/deleteEvent/:id', deleteEvent) // Suppression d'un event
 router.post('/createUser', createUser)
 router.get('/getUser/:id', getUser)
 router.get('/getArchivedUsers', getArchivedUsers)
+router.get('/getUsersByRole/:role', getUsersByRole)
 router.get('/getAllUsers', getAllUsers)
 router.patch('/updateUser/:id', updateUser)
 router.delete('/deleteUser/:id', deleteUser)

@@ -87,6 +87,14 @@ export const getArchivedUsers = async function(req, res) {
     res.status(200).send(users)
 }
 
+export const getUsersByRole = async function(req, res) {
+    const users = await UserModel.find({ deleted: false, role: req.params.role }, '_id firstname lastname company.name')
+    if ( users.length < 1 ) {
+        return res.status(404).send('Aucun utilisateur n\'a été trouvé')
+    }
+    res.status(200).send(users)
+}
+
 export const getAllUsers = async function(req, res) {
     const users = await UserModel.find({ deleted: false })
     if ( users.length < 1 ) {
