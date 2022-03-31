@@ -30,7 +30,7 @@ export const updateUser = async function(req, res) {
 
 // soft delete
 export const softDeleteUser = async function(req, res) {
-    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, async (error, doc) => {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {deleted: true}, { new: true }, async (error, doc) => {
         if (error) {
             return res.status(404).send('Aucun utilisateur trouvé.')
         }

@@ -166,7 +166,7 @@ describe('User Controllers', function () {
     const del = await request(app)
       .delete(`/softDeleteUser/${this.userId}`)
       .set('Authorization', `Bearer ${this.token}`)
-    expect(del.body).to.eql({_id: this.userId})
+    expect(del.body).to.include({_id: this.userId, deleted: true})
     const deletedUser = await request(app)
       .get(`/getUser/${this.userId}`)
       .set('Authorization', `Bearer ${this.token}`)

@@ -3,6 +3,11 @@ import EventModel from '../models/eventModel.js'
 // create
 export const createEvent = async function(req, res) {
     req.body.map( async item =>  {
+        item.status = {
+            status: 'started',
+            date: new Date(),
+            current: true
+        }
         const event = new EventModel(item)
         await event.save().then((response) => { // sauvegarde dans la bdd
             res.status(200).send(response) // envoi la réponse

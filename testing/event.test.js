@@ -38,12 +38,6 @@ describe('Event Controller', function() {
         "priceRent": 200
       }]
     },
-    "status": {
-      "status": "started",
-      "date": "2021-11-06T20:00:00.000Z",
-      "current": true,
-      "comment": "current is not required"
-    },
     "comment": "ils sont chaud les marrons",
     "price": {
       "budget":14000000

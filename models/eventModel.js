@@ -36,12 +36,10 @@ const eventSchema = new mongoose.Schema({
             type: String,
             trim: true,
             lowercase: true,
-            minLength: 2,
             maxLength: 5
         },
         address: {
             type: String,
-            required: true,
             trim: true,
             lowercase: true
         },
