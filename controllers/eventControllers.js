@@ -51,6 +51,7 @@ export const getEvent = async function(req, res) {
     })
     .populate('user',['id','firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
+    .populate('options.equipments.equipment')
     .catch(error => res.status(500).send(error.message))
 
     res.send(event)
