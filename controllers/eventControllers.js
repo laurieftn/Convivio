@@ -49,7 +49,7 @@ export const getEvent = async function(req, res) {
             return res.status(404).send('L\'évènement n\'a pas été trouvé')
         }
     })
-    .populate('user',['id','firstname','lastname'])
+    .populate('user',['id','firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))
 
