@@ -60,7 +60,7 @@ export const getEvent = async function(req, res) {
 //read All public event
 export const getAllPublicEvents = async function(req, res) {
     const events = await EventModel.find({ 'eventDescription.public': true })
-    .populate('user',['firstname','lastname'])
+    .populate('user',['firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))
     if ( events.length < 1 ) {
@@ -71,7 +71,7 @@ export const getAllPublicEvents = async function(req, res) {
 //read All
 export const getAllEvents = async function(req, res) {
     const events = await EventModel.find({})
-    .populate('user',['firstname','lastname'])
+    .populate('user',['firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))
     if ( events.length < 1 ) {
@@ -97,7 +97,8 @@ export const getAllEventsFromDate = async function(req, res) {
     const events = await EventModel.find({
         "eventDescription.startDate" : {$gte : start},
         "eventDescription.endDate": {$lte : end}
-    }).populate('user',['firstname','lastname'])
+    })
+    .populate('user',['firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))
     if ( events.length < 1 ) {
@@ -108,7 +109,7 @@ export const getAllEventsFromDate = async function(req, res) {
 
 export const getAllEventsFromCity = async function(req, res) {
     const events = await EventModel.find({'eventDescription.city' : req.params.city})
-    .populate('user',['firstname','lastname'])
+    .populate('user',['firstname','lastname', 'company'])
     .populate('options.serviceProviders.provider')
     .catch(error => res.status(500).send(error.message))
     if ( events.length < 1 ) {
