@@ -35,7 +35,7 @@ export const softDeleteUser = async function(req, res) {
             return res.status(404).send('Aucun utilisateur trouvé.')
         }
         // handling of event for this user
-        // get concernded events
+        // get concerned events
         const events = await EventModel.find({ 'user' : doc._id }, 'comment')
         // update each event to add commment
         events.map(async event => {

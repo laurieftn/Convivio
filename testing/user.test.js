@@ -2,7 +2,6 @@ import app from '../index.js'
 import request from 'supertest'
 import chai from 'chai'
 import { format } from 'date-fns'
-import { deleteUser } from '../controllers/userControllers.js'
 const expect = chai.expect
 
 describe('/POST Login', function () {
