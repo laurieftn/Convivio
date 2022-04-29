@@ -57,3 +57,11 @@ Stéphane Cavillon
 
 - events:
     `node data/seed.js -e n` seed n events
+
+# Dump
+- sauvegarder la base de données
+    `mongodump --uri="mongodb+srv://convivioAdmin:convivio@convivio-api.nzfer.mongodb.net/convivio-api?retryWrites=true&w=majority"`
+- visualiser les données au format JSON
+    `bsondump <file_name>`
+- restaurer la base de données
+    `mongorestore <options> --uri="mongodb+srv://convivioAdmin:convivio@convivio-api.nzfer.mongodb.net/convivio-api?retryWrites=true&w=majority" <directory or file to restore>`
